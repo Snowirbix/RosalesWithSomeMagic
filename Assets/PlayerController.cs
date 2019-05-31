@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     [Range(0.1f, 10f)]
     public float speed = 1f;
 
+    public Transform rotator;
+
     protected CharacterController charController;
     protected Animator animator;
 
@@ -18,6 +20,11 @@ public class PlayerController : MonoBehaviour
     {
         charController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+
+        if (!rotator)
+        {
+            throw new UnassignedReferenceException();
+        }
     }
 
     private void Update ()
@@ -35,7 +42,7 @@ public class PlayerController : MonoBehaviour
 
     protected void Rotate ()
     {
-        transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(lookDirection.x, lookDirection.y) * Mathf.Rad2Deg, Vector3.up);
+        rotator.rotation = Quaternion.AngleAxis(Mathf.Atan2(lookDirection.x, lookDirection.y) * Mathf.Rad2Deg, Vector3.up);
     }
 
     protected void Animate ()

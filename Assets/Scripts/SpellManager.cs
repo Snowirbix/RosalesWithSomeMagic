@@ -8,6 +8,7 @@ public class SpellManager : MonoBehaviour {
         GameObject go = Instantiate(clickLeftSpell,new Vector3(transform.position.x,transform.position.y + 1, transform.position.z),Quaternion.identity);
         Attack at = go.GetComponent<Attack>();
         at.SetDir(lookDirection);
+        at.SetAttackOwner(transform.gameObject);
     }
 
     void Start()

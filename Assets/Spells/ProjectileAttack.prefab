@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1732378019602158325}
   - component: {fileID: -4652415795809032225}
   - component: {fileID: 2494579613852854040}
+  - component: {fileID: -3297195040329002056}
   m_Layer: 0
   m_Name: ProjectileAttack
   m_TagString: Untagged
@@ -66,7 +67,6 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -94,3 +94,16 @@ MonoBehaviour:
   range: 1
   speed: 10
   cooldown: 0.5
+--- !u!135 &-3297195040329002056
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5881734264313201649}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}

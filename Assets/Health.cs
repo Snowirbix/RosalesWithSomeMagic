@@ -21,10 +21,10 @@ public class Health : MonoBehaviour
     private void Update()
     {
         // for testing purpose only
-        if (Input.GetMouseButtonDown(0))
+        /* if (Input.GetMouseButtonDown(0))
         {
             this.TakeDamage(10f);
-        }
+        }*/
     }
 
     public void TakeDamage (float value)

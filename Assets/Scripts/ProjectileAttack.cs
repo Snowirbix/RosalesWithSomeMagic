@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ProjectileAttack : Attack {
     [Range(1,10)]
-    public int range = 1;
+    public int range = 5;
 
     [Range(1f,20f)]
     public float speed = 5f;
@@ -17,9 +17,12 @@ public class ProjectileAttack : Attack {
 
     private SphereCollider sphereCollider;
 
+    private Vector3 positionStart;
+
     void Start()
     {
         sphereCollider = transform.GetComponent<SphereCollider>();
+        positionStart = transform.position;
     }
     void Update()
     {
@@ -33,12 +36,19 @@ public class ProjectileAttack : Attack {
             //deal damage
             Health hp = sphereCollider.gameObject.transform.GetComponent<Health>();
             hp.TakeDamage(damage);
+           
+            Destroy(gameObject);
         }
     }
     void Move(Vector3 motion){
         transform.position = transform.position + motion;
+        
+        Vector3 offset = positionStart - transform.position;
+        if(offset.sqrMagnitude > range * range){
+            Destroy(gameObject);
+        }
     }
-
+    
     public override float GetCooldown(){
         return cooldown;
     }

@@ -91,9 +91,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5df4c564720ae346b1917eea3e6d5f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 1
+  range: 5
   speed: 10
   cooldown: 0.5
+  damage: 10
 --- !u!135 &-3297195040329002056
 SphereCollider:
   m_ObjectHideFlags: 0

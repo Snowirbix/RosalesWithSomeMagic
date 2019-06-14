@@ -54,7 +54,7 @@ public class ProjectileAttack : Attack {
     }
 
     public override void SetDir(Vector2 lookDir){
-        dir2 = lookDir;
+        dir2 = lookDir.normalized;
     }
 
     public override void SetAttackOwner(GameObject Owner){

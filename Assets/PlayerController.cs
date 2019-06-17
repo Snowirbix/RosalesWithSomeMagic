@@ -1,18 +1,19 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Animator))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : NetworkBehaviour
 {
-    //[ReadOnly]
+    [SyncVar][ReadOnly]
     public Vector2 moveDirection = Vector2.zero;
-    //[ReadOnly]
+    
+    [SyncVar][ReadOnly]
     public Vector2 lookDirection = Vector2.zero;
     [Range(0.1f, 10f)]
     public float speed = 1f;
 
     public Transform rotator;
-
     protected CharacterController charController;
     protected Animator animator;
 

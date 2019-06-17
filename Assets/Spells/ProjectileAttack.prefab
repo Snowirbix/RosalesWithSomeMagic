@@ -95,6 +95,7 @@ MonoBehaviour:
   speed: 10
   cooldown: 0.5
   damage: 10
+  animationAttackTime: 0.25
 --- !u!135 &-3297195040329002056
 SphereCollider:
   m_ObjectHideFlags: 0

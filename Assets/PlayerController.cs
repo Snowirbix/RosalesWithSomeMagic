@@ -13,6 +13,9 @@ public class PlayerController : MonoBehaviour
 
     public Transform rotator;
 
+    public bool castingSpell = false;
+
+    private float animationAttackTime = 0;
     protected CharacterController charController;
     protected Animator animator;
 
@@ -29,9 +32,19 @@ public class PlayerController : MonoBehaviour
 
     private void Update ()
     {
-        Move();
-        Rotate();
-        Animate();
+        if(!castingSpell){
+            Move();
+            Rotate();
+            Animate();
+        }else
+        {
+            animationAttackTime -= Time.deltaTime;
+            if(animationAttackTime <= 0){
+                animationAttackTime = 0;
+                castingSpell = false;
+            }
+
+        }
     }
 
     protected void Move ()
@@ -68,5 +81,10 @@ public class PlayerController : MonoBehaviour
 
         animator.SetFloat("x", x);
         animator.SetFloat("y", y);
+    }
+
+    public void SetAnimationAttackTime(float attackTime){
+        castingSpell = true;
+        animationAttackTime = attackTime;
     }
 }

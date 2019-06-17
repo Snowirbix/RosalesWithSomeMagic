@@ -11,6 +11,8 @@ public class ProjectileAttack : Attack {
 
     public float damage = 10;
 
+    public float animationAttackTime = 0.25f;
+
     private Vector2 dir2;
 
     private GameObject AttackOwner;
@@ -18,6 +20,7 @@ public class ProjectileAttack : Attack {
     private SphereCollider sphereCollider;
 
     private Vector3 positionStart;
+
 
     void Start()
     {
@@ -59,5 +62,9 @@ public class ProjectileAttack : Attack {
 
     public override void SetAttackOwner(GameObject Owner){
         AttackOwner = Owner;
+    }
+
+    public override float GetAnimationAttackTime(){
+        return animationAttackTime;
     }
 }

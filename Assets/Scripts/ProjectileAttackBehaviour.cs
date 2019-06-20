@@ -12,7 +12,7 @@ public class ProjectileAttackBehaviour : MonoBehaviour
 
     private GameObject AttackOwner;
 
-    private float damage;
+    private int damage;
 
     // Start is called before the first frame update
     void Start()
@@ -64,7 +64,7 @@ public class ProjectileAttackBehaviour : MonoBehaviour
         speed = newSpeed;
     }
 
-    public void SetDamage(float newDamage){
+    public void SetDamage(int newDamage){
         damage = newDamage;
     }
 }

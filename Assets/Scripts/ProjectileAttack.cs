@@ -10,7 +10,7 @@ public class ProjectileAttack : Attack {
 
     public float cooldown = 0.5f;
 
-    public float damage = 10;
+    public int damage = 10;
 
     public float animationAttackTime = 0.25f;
 

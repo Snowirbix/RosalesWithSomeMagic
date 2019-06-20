@@ -27,19 +27,16 @@ public class Health : MonoBehaviour
         }*/
     }
 
-    public void TakeDamage (float value)
+    public void TakeDamage (int value)
     {
         health -= value;
         healthbar.TakeDamage(health / maxHealth);
+        healthbar.DisplayDamage(value);
     }
 
-    public void Heal (float value)
+    public void Heal (int value)
     {
         health += value;
         healthbar.Heal(health / maxHealth);
-    }
-
-    public void DisplayDamage(){
-        
     }
 }

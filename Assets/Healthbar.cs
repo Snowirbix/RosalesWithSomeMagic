@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Healthbar : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class Healthbar : MonoBehaviour
     public RectTransform backgroundBar;
     public RectTransform damageBar;
     public RectTransform healthBar;
-
+    public GameObject damageTextObject;
     protected float maxWidth;
     protected List<Change> changes = new List<Change>();
 
@@ -60,5 +61,14 @@ public class Healthbar : MonoBehaviour
         healthBar.sizeDelta = new Vector2(healthRatio * maxWidth, healthBar.sizeDelta.y);
         // instant update
         damageBar.sizeDelta = new Vector2(healthRatio * maxWidth, damageBar.sizeDelta.y);
+    }
+
+    public void DisplayDamage(int healthLost){
+        GameObject dt = Instantiate(damageTextObject, transform.position , Quaternion.Euler(50,0,0), transform);
+        dt.transform.localPosition =  new Vector3(71,-305,0.3f);
+        Text dtexte = dt.GetComponent<Text>();
+        dtexte.text = healthLost.ToString();
+        dtexte.color = Color.red;
+        dtexte.fontSize = (int)Mathf.Lerp(50,150,healthLost/1000); //healthLost >= 100 ? 50 + healthLost/10 : 50;
     }
 }

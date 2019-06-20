@@ -973,7 +973,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6363370117942861870}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &6363370117800192035
 SkinnedMeshRenderer:
@@ -1120,7 +1120,7 @@ Transform:
   - {fileID: 6363370117787023741}
   - {fileID: 6363370117787023491}
   m_Father: {fileID: 6363370117942861870}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6363370117786527017
 GameObject:
@@ -1262,6 +1262,7 @@ MonoBehaviour:
   lookDirection: {x: 0, y: 0}
   speed: 5
   rotator: {fileID: 6363370117942861870}
+  castingSpell: 0
 --- !u!114 &6363370118362414944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1276,6 +1277,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clickLeftSpell: {fileID: 5881734264313201649, guid: ce9bf0983b157c3408963ceb56fe7591,
     type: 3}
+  rightHandSpellSpawn: {fileID: 7821556584406960175}
+  attackclickLeft: {fileID: 11400000, guid: c4719c83419d03742a3654500f9f8900, type: 2}
 --- !u!114 &6363370117786527020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2695,6 +2698,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 3722711784497274688}
   - {fileID: 6363370117787023623}
   - {fileID: 6363370117787023621}
   m_Father: {fileID: 6363370117787023627}
@@ -2819,3 +2823,33 @@ MonoBehaviour:
   backgroundBar: {fileID: 6363370117450317090}
   damageBar: {fileID: 6363370117654046057}
   healthBar: {fileID: 6363370117460586500}
+--- !u!1 &7821556584406960175
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3722711784497274688}
+  m_Layer: 0
+  m_Name: RightSpellSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3722711784497274688
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7821556584406960175}
+  m_LocalRotation: {x: -0.00035914747, y: 0.00000038190453, z: -0.000022151158, w: 1}
+  m_LocalPosition: {x: 0, y: 1.592, z: 0.779}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6363370117942861870}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

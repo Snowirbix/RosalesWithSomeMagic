@@ -38,4 +38,8 @@ public class Health : MonoBehaviour
         health += value;
         healthbar.Heal(health / maxHealth);
     }
+
+    public void DisplayDamage(){
+        
+    }
 }

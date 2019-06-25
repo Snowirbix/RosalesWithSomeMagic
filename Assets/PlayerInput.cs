@@ -31,8 +31,9 @@ public class PlayerInput : NetworkBehaviour
         float v = Input.GetAxis("Vertical");
 
         Vector2 dir2 = new Vector2(h, v);
+        dir2 = (dir2.magnitude > 1f) ? dir2.normalized : dir2;
 
-        playerController.moveDirection = (dir2.magnitude > 1f) ? dir2.normalized : dir2;
+        playerController.SetMoveDirection(dir2);
     }
 
     private void Mouse ()
@@ -43,8 +44,9 @@ public class PlayerInput : NetworkBehaviour
         {
             Vector3 dir3 = (hit.point - transform.position);
             Vector2 dir2 = new Vector2(dir3.x, dir3.z);
+            dir2 = (dir2.magnitude > 1f) ? dir2.normalized : dir2;
 
-            playerController.lookDirection = (dir2.magnitude > 1f) ? dir2.normalized : dir2;
+            playerController.SetLookDirection(dir2);
 
             if(Input.GetMouseButtonDown(0))
             {

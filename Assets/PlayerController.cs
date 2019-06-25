@@ -15,6 +15,7 @@ public class PlayerController : NetworkBehaviour
 
     public Transform rotator;
 
+    [ReadOnly]
     public bool castingSpell = false;
 
     private float animationAttackTime = 0;
@@ -34,19 +35,26 @@ public class PlayerController : NetworkBehaviour
 
     private void Update ()
     {
-        if(!castingSpell){
-            Move();
-            Rotate();
-            Animate();
-        }else
+        if (!castingSpell)
+        {
+            if (isLocalPlayer)
+            {
+                Move();
+                Rotate();
+            }
+        }
+        else
         {
             animationAttackTime -= Time.deltaTime;
-            if(animationAttackTime <= 0){
+
+            if(animationAttackTime <= 0)
+            {
                 animationAttackTime = 0;
                 castingSpell = false;
             }
-
         }
+
+        Animate();
     }
 
     protected void Move ()
@@ -85,8 +93,33 @@ public class PlayerController : NetworkBehaviour
         animator.SetFloat("y", y);
     }
 
-    public void SetAnimationAttackTime(float attackTime){
+    public void SetAnimationAttackTime (float attackTime)
+    {
         castingSpell = true;
         animationAttackTime = attackTime;
+    }
+
+    public void SetMoveDirection (Vector3 direction)
+    {
+        this.moveDirection = direction;
+        this.CmdSetMoveDirection(direction);
+    }
+
+    public void SetLookDirection (Vector3 direction)
+    {
+        this.lookDirection = direction;
+        this.CmdSetLookDirection(direction);
+    }
+
+    [Command]
+    public void CmdSetMoveDirection (Vector3 direction)
+    {
+        this.moveDirection = direction;
+    }
+
+    [Command]
+    public void CmdSetLookDirection (Vector3 direction)
+    {
+        this.lookDirection = direction;
     }
 }

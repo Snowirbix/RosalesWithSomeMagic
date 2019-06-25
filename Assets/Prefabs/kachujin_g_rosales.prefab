@@ -1170,7 +1170,7 @@ GameObject:
   - component: {fileID: 6363370117786527020}
   - component: {fileID: 5514165314517761345}
   - component: {fileID: 8521214525430238796}
-  - component: {fileID: 8695203540683805986}
+  - component: {fileID: 1114658305878605542}
   m_Layer: 0
   m_Name: kachujin_g_rosales
   m_TagString: Untagged
@@ -1262,6 +1262,7 @@ MonoBehaviour:
   lookDirection: {x: 0, y: 0}
   speed: 5
   rotator: {fileID: 6363370117942861870}
+  castingSpell: 0
 --- !u!114 &6363370118362414944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1336,9 +1337,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13d6c522af31447398568cc65334232b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TransformSyncMode: 4
-  m_SendInterval: 0.04761905
-  m_SyncRotationAxis: 2
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.033333335
+  m_SyncRotationAxis: 0
   m_RotationSyncCompression: 0
   m_SyncSpin: 0
   m_MovementTheshold: 0.001
@@ -1346,7 +1347,7 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 0.1
   m_InterpolateMovement: 0.1
---- !u!114 &8695203540683805986
+--- !u!114 &1114658305878605542
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1355,17 +1356,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 6363370117786527019}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e18e15ed5495c434d969378156376a52, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e4fc1de7aae047a4bf138b9498c9b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Animator: {fileID: 6363370117796009699}
-  m_ParameterSendBits: 0
-  param0: 
-  param1: 
-  param2: 
-  param3: 
-  param4: 
-  param5: 
+  m_Target: {fileID: 6363370117942861870}
+  m_ChildIndex: 0
+  m_SendInterval: 0.033333335
+  m_SyncRotationAxis: 2
+  m_RotationSyncCompression: 0
+  m_MovementThreshold: 0.001
+  m_InterpolateRotation: 0.1
+  m_InterpolateMovement: 0
 --- !u!1 &6363370117786527021
 GameObject:
   m_ObjectHideFlags: 0

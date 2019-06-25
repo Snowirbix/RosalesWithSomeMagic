@@ -1,18 +1,23 @@
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "Attack", menuName = "ScriptableObjects/Attack", order = 1)]
 public class ProjectileAttack : Attack {
     [Range(1,10)]
     public int range = 5;
 
     [Range(1f,20f)]
-    public float speed = 5f;
+    public float speed = 10f;
 
     public float cooldown = 0.5f;
 
-    public float damage = 10;
+    public int damage = 10;
 
     public float animationAttackTime = 0.25f;
 
+    public float castingTime = 0.20f;
+
+    public GameObject projectileAttack;
+    
     private Vector2 dir2;
 
     private GameObject AttackOwner;
@@ -21,36 +26,7 @@ public class ProjectileAttack : Attack {
 
     private Vector3 positionStart;
 
-
-    void Start()
-    {
-        sphereCollider = transform.GetComponent<SphereCollider>();
-        positionStart = transform.position;
-    }
-    void Update()
-    {
-        Vector3 dir3 = new Vector3(dir2.x,0,dir2.y);
-        Move(dir3 * speed * Time.deltaTime);
-    }
-
-    private void OnTriggerEnter(Collider sphereCollider)
-    {
-        if(sphereCollider.gameObject != AttackOwner){
-            //deal damage
-            Health hp = sphereCollider.gameObject.transform.GetComponent<Health>();
-            hp.TakeDamage(damage);
-           
-            Destroy(gameObject);
-        }
-    }
-    void Move(Vector3 motion){
-        transform.position = transform.position + motion;
-        
-        Vector3 offset = positionStart - transform.position;
-        if(offset.sqrMagnitude > range * range){
-            Destroy(gameObject);
-        }
-    }
+    private float castingTimeUsed;
     
     public override float GetCooldown(){
         return cooldown;
@@ -66,5 +42,35 @@ public class ProjectileAttack : Attack {
 
     public override float GetAnimationAttackTime(){
         return animationAttackTime;
+    }
+
+    public override void SetPosition(Vector3 pos){
+        positionStart = pos;
+    }
+    public override void StartAttack(){
+
+        GameObject go = Instantiate(projectileAttack, positionStart, Quaternion.identity);
+        ProjectileAttackBehaviour pab = go.transform.GetComponent<ProjectileAttackBehaviour>();
+        pab.SetDir(dir2);
+        pab.SetRange(range);
+        pab.SetAttackOwner(AttackOwner);
+        pab.SetSpeed(speed);
+        pab.SetDamage(damage);
+    }
+
+    public override bool Update(){
+        castingTimeUsed -= Time.deltaTime;
+        if(castingTimeUsed > 0){
+            return true;
+        }else
+        {
+            StartAttack();
+            castingTimeUsed = castingTime;
+            return false;
+        }
+    }
+
+    public override void Start(){
+        castingTimeUsed = castingTime;
     }
 }

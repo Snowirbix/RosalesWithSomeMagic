@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5df4c564720ae346b1917eea3e6d5f0, type: 3}
-  m_Name: Attack
+  m_Script: {fileID: 11500000, guid: 53b05ccd888257e4cb599b6c433beff0, type: 3}
+  m_Name: ProjectileAttackData
   m_EditorClassIdentifier: 
   range: 10
-  speed: 10
-  cooldown: 0.8
+  speed: 12
+  cooldown: 1
   damage: 10
-  animationAttackTime: 0.25
-  castingTime: 0.25
-  projectileAttack: {fileID: 5881734264313201649, guid: ce9bf0983b157c3408963ceb56fe7591,
+  animationAttackTime: 0.3
+  castingTime: 0.2
+  projectilePrefab: {fileID: 5881734264313201649, guid: ce9bf0983b157c3408963ceb56fe7591,
     type: 3}

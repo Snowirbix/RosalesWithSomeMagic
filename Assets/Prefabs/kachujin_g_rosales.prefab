@@ -1275,10 +1275,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21683f752918b2a4ab12729c37dfcba6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickLeftSpell: {fileID: 5881734264313201649, guid: ce9bf0983b157c3408963ceb56fe7591,
-    type: 3}
   rightHandSpellSpawn: {fileID: 7821556584406960175}
-  attackclickLeft: {fileID: 11400000, guid: c4719c83419d03742a3654500f9f8900, type: 2}
+  attackDataLeftClick: {fileID: 11400000, guid: ee7414fb66c33d44d9e1233b22c3a540,
+    type: 2}
 --- !u!114 &6363370117786527020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2823,6 +2822,7 @@ MonoBehaviour:
   backgroundBar: {fileID: 6363370117450317090}
   damageBar: {fileID: 6363370117654046057}
   healthBar: {fileID: 6363370117460586500}
+  damageTextObject: {fileID: 0}
 --- !u!1 &7821556584406960175
 GameObject:
   m_ObjectHideFlags: 0

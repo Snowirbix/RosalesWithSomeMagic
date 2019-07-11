@@ -1,53 +1,79 @@
 using UnityEngine;
-using System.Collections.Generic;
+using UnityEngine.Networking;
 
-public class SpellManager : MonoBehaviour {
+public class SpellManager : NetworkBehaviour
+{
     public GameObject rightHandSpellSpawn;
-    public Attack attackclickLeft;
+    public AttackData attackDataLeftClick;
+    [ReadOnly]
+    public Attack attackLeftClick;
     private float cdClickLeft;
     private float cdClickLeftUsed = 0;
-    private List<Attack> attackList = new List<Attack>();
 
     private PlayerController playerController;
 
     private Animator animator;
-    public void LeftClick(Vector2 lookDirection){
-        if(cdClickLeftUsed <= 0)
+
+    public void LeftClick (Vector2 lookDirection)
+    {
+        if (cdClickLeftUsed <= 0)
+        {
+            CmdLeftClick(lookDirection);
+        }
+    }
+
+    [Command]
+    protected void CmdLeftClick (Vector2 lookDirection)
+    {
+        if (cdClickLeftUsed <= 0)
         {
             cdClickLeftUsed = cdClickLeft;
-            attackclickLeft.Start();
-            attackclickLeft.SetPosition(rightHandSpellSpawn.transform.position);
-            attackclickLeft.SetDir(lookDirection);
-            attackclickLeft.SetAttackOwner(transform.gameObject);
+            attackLeftClick.SetPosition(rightHandSpellSpawn.transform.position);
+            attackLeftClick.SetRotation(rightHandSpellSpawn.transform.rotation);
+            attackLeftClick.SetDir(lookDirection);
+            attackLeftClick.SetAttackOwner(transform.gameObject);
+            attackLeftClick.Trigger();
             animator.SetTrigger("fireball");
-            playerController.SetAnimationAttackTime(attackclickLeft.GetAnimationAttackTime());
-
-            attackList.Add(attackclickLeft);
+            playerController.SetAnimationAttackTime(attackLeftClick.GetAnimationAttackTime());
         }
-        
     }
 
-    void Start()
+    /*public void ServerInstantiate (GameObject original, Vector3 position, Quaternion rotation)
     {
-        cdClickLeft = attackclickLeft.GetCooldown();
-        animator = transform.GetComponent<Animator>();
-        playerController = transform.GetComponent<PlayerController>();
+        CmdInstantiate(original, position, rotation);
     }
 
-    void Update()
+    [Command]
+    public void CmdInstantiate (GameObject original, Vector3 position, Quaternion rotation)
     {
-        for(int i = attackList.Count - 1; i >= 0; i--)
+        GameObject instance = Instantiate(original, position, rotation);
+        NetworkServer.Spawn(instance);
+    }*/
+
+    private void Start ()
+    {
+        animator = GetComponent<Animator>();
+        playerController = GetComponent<PlayerController>();
+
+        if (isServer)
         {
-            if(!attackList[i].Update())
+            // Add the script from the data
+            attackLeftClick = gameObject.AddComponent(attackDataLeftClick.GetType()) as Attack;
+            // Set the data to the script
+            attackLeftClick.SetData(attackDataLeftClick);
+
+            cdClickLeft = attackLeftClick.GetCooldown();
+        }
+    }
+
+    private void Update ()
+    {
+        if (isServer)
+        {
+            if (cdClickLeftUsed > 0)
             {
-                attackList.RemoveAt(i);
+                cdClickLeftUsed -= Time.deltaTime;
             }
         }
-
-        if(cdClickLeftUsed > 0)
-        {
-            cdClickLeftUsed -= Time.deltaTime;
-        }
     }
-
 }

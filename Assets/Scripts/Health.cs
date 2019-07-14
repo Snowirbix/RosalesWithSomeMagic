@@ -1,42 +1,38 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
-public class Health : MonoBehaviour
+public class Health : NetworkBehaviour
 {
-    public Healthbar healthbar;
-
-    //[ReadOnly]
+    [ReadOnly][SyncVar]
     public float health;
+
     public float maxHealth = 100f;
+
+    protected Healthbar healthbar;
 
     private void Start()
     {
-        if (!healthbar)
-        {
-            throw new UnassignedReferenceException();
-        }
+        healthbar = GetComponent<Healthbar>();
         
         health = maxHealth;
     }
 
-    private void Update()
-    {
-        // for testing purpose only
-        /* if (Input.GetMouseButtonDown(0))
-        {
-            this.TakeDamage(10f);
-        }*/
-    }
-
     public void TakeDamage (int value)
     {
-        health -= value;
-        healthbar.TakeDamage(health / maxHealth);
-        healthbar.DisplayDamage(value);
+        if (isServer)
+        {
+            health -= value;
+            healthbar.TakeDamage(health / maxHealth);
+            healthbar.DisplayDamage(value);
+        }
     }
 
     public void Heal (int value)
     {
-        health += value;
-        healthbar.Heal(health / maxHealth);
+        if (isServer)
+        {
+            health += value;
+            healthbar.Heal(health / maxHealth);
+        }
     }
 }

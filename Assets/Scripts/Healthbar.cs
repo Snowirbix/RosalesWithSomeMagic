@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
-public class Healthbar : MonoBehaviour
+public class Healthbar : NetworkBehaviour
 {
     [Range(0f, 1f)]
     public float deltaTime = 0.2f;
+
+    public Transform canvas;
     public RectTransform backgroundBar;
     public RectTransform damageBar;
     public RectTransform healthBar;
@@ -63,12 +65,22 @@ public class Healthbar : MonoBehaviour
         damageBar.sizeDelta = new Vector2(healthRatio * maxWidth, damageBar.sizeDelta.y);
     }
 
-    public void DisplayDamage(int healthLost){
-        GameObject dt = Instantiate(damageTextObject, transform.position , Quaternion.Euler(50,0,0), transform);
-        dt.transform.localPosition =  new Vector3(71,-305,0.3f);
+    public void DisplayDamage (int healthLost)
+    {
+        if (isServer)
+        {
+            RpcDisplayDamage(healthLost);
+        }
+    }
+
+    [ClientRpc]
+    protected void RpcDisplayDamage (int healthLost)
+    {
+        GameObject dt = Instantiate(damageTextObject, canvas.transform.position , Quaternion.Euler(50, 0, 0), canvas.transform);
+        dt.transform.localPosition =  new Vector3(71, -305, 0.3f);
         Text dtexte = dt.GetComponent<Text>();
         dtexte.text = healthLost.ToString();
         dtexte.color = Color.red;
-        dtexte.fontSize = (int)Mathf.Lerp(50,150,healthLost/1000); //healthLost >= 100 ? 50 + healthLost/10 : 50;
+        dtexte.fontSize = (int)Mathf.Lerp(50, 150, healthLost / 1000); //healthLost >= 100 ? 50 + healthLost/10 : 50;
     }
 }

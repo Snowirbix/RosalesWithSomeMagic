@@ -39,24 +39,30 @@ public class ProjectileAttackBehaviour : NetworkBehaviour
 
     void Move(Vector3 motion)
     {
-        transform.position = transform.position + motion;
-        
-        Vector3 offset = positionStart - transform.position;
-        if (offset.sqrMagnitude > range * range)
+        if (isServer)
         {
-            Destroy(gameObject);
+            transform.position = transform.position + motion;
+            
+            Vector3 offset = positionStart - transform.position;
+            if (offset.sqrMagnitude > range * range)
+            {
+                NetworkServer.Destroy(gameObject);
+            }
         }
     }
 
     private void OnTriggerEnter(Collider sphereCollider)
     {
-        if (sphereCollider.gameObject != AttackOwner)
+        if (isServer)
         {
-            //deal damage
-            Health hp = sphereCollider.gameObject.transform.GetComponent<Health>();
-            hp.TakeDamage(damage);
-           
-            Destroy(gameObject);
+            if (sphereCollider.gameObject != AttackOwner)
+            {
+                //deal damage
+                Health hp = sphereCollider.gameObject.transform.GetComponent<Health>();
+                hp.TakeDamage(damage);
+            
+                NetworkServer.Destroy(gameObject);
+            }
         }
     }
 

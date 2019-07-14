@@ -1168,6 +1168,7 @@ GameObject:
   - component: {fileID: 6363370118362414958}
   - component: {fileID: 6363370118362414944}
   - component: {fileID: 6363370117786527020}
+  - component: {fileID: 6934766636244684948}
   - component: {fileID: 5514165314517761345}
   - component: {fileID: 8521214525430238796}
   - component: {fileID: 1114658305878605542}
@@ -1278,6 +1279,7 @@ MonoBehaviour:
   rightHandSpellSpawn: {fileID: 7821556584406960175}
   attackDataLeftClick: {fileID: 11400000, guid: ee7414fb66c33d44d9e1233b22c3a540,
     type: 2}
+  attackLeftClick: {fileID: 0}
 --- !u!114 &6363370117786527020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1290,9 +1292,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38bf275436eb4464091866bdedb0186a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthbar: {fileID: 6363370118364370762}
+  healthbar: {fileID: 0}
   health: 0
   maxHealth: 100
+--- !u!114 &6934766636244684948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6363370117786527019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b209aea79ac1d8f418088544dd7e61e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deltaTime: 0.2
+  canvas: {fileID: 6363370118364370742}
+  backgroundBar: {fileID: 6363370117450317090}
+  damageBar: {fileID: 6363370117654046057}
+  healthBar: {fileID: 6363370117460586500}
+  damageTextObject: {fileID: 2753409100683545460, guid: f39907eea0aa94d44932105647181bfd,
+    type: 3}
 --- !u!114 &5514165314517761345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2715,7 +2736,6 @@ GameObject:
   - component: {fileID: 6363370118364370761}
   - component: {fileID: 6363370118364370760}
   - component: {fileID: 6363370118364370743}
-  - component: {fileID: 6363370118364370762}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2732,7 +2752,7 @@ RectTransform:
   m_GameObject: {fileID: 6363370118364370741}
   m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.005, y: 0.005, z: 1}
+  m_LocalScale: {x: 0.005, y: 0.005, z: 0.005}
   m_Children:
   - {fileID: 6363370116675836308}
   - {fileID: 6363370117450317090}
@@ -2806,23 +2826,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &6363370118364370762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6363370118364370741}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b209aea79ac1d8f418088544dd7e61e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deltaTime: 0.2
-  backgroundBar: {fileID: 6363370117450317090}
-  damageBar: {fileID: 6363370117654046057}
-  healthBar: {fileID: 6363370117460586500}
-  damageTextObject: {fileID: 0}
 --- !u!1 &7821556584406960175
 GameObject:
   m_ObjectHideFlags: 0

@@ -167,6 +167,7 @@ MonoBehaviour:
   m_OnlineScene: 
   m_SpawnPrefabs:
   - {fileID: 5881734264313201649, guid: ce9bf0983b157c3408963ceb56fe7591, type: 3}
+  - {fileID: 2753409100683545460, guid: f39907eea0aa94d44932105647181bfd, type: 3}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -518,6 +519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deltaTime: 0.2
+  canvas: {fileID: 0}
   backgroundBar: {fileID: 2100448236}
   damageBar: {fileID: 1071555046}
   healthBar: {fileID: 1778552134}

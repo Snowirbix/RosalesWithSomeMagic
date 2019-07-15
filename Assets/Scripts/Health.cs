@@ -3,7 +3,7 @@ using UnityEngine.Networking;
 
 public class Health : NetworkBehaviour
 {
-    [ReadOnly][SyncVar]
+    [ReadOnly][SyncVar(hook = "OnChangedHealth")]
     public float health;
 
     public float maxHealth = 100f;
@@ -24,6 +24,14 @@ public class Health : NetworkBehaviour
             health -= value;
             healthbar.TakeDamage(health / maxHealth);
             healthbar.DisplayDamage(value);
+        }
+    }
+
+    protected void OnChangedHealth (float h)
+    {
+        if (!isServer)
+        {
+            healthbar.TakeDamage(h / maxHealth);
         }
     }
 

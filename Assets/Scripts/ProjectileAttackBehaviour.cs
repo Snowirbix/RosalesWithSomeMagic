@@ -21,16 +21,15 @@ public class ProjectileAttackBehaviour : NetworkBehaviour
     protected SphereCollider sphereCollider;
 
     protected Vector3 positionStart;
+    
+    public AnimationCurve scale = AnimationCurve.Constant(0, 1, 1);
 
-
-    // Start is called before the first frame update
     private void Start()
     {
         sphereCollider = transform.GetComponent<SphereCollider>();
         positionStart = transform.position;
     }
 
-    // Update is called once per frame
     void Update()
     {
         Vector3 dir3 = new Vector3(dir2.x,0,dir2.y);
@@ -42,9 +41,17 @@ public class ProjectileAttackBehaviour : NetworkBehaviour
         if (isServer)
         {
             transform.position = transform.position + motion;
-            
-            Vector3 offset = positionStart - transform.position;
-            if (offset.sqrMagnitude > range * range)
+        }
+
+        Vector3 offset = positionStart - transform.position;
+
+        float x = offset.magnitude / range;
+
+        transform.localScale = Vector3.one * scale.Evaluate(x);
+
+        if (isServer)
+        {
+            if (x >= 1.0f)
             {
                 NetworkServer.Destroy(gameObject);
             }

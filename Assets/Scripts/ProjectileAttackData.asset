@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: ProjectileAttackData
   m_EditorClassIdentifier: 
   range: 10
-  speed: 12
+  speed: 13
   cooldown: 1
   damage: 10
-  animationAttackTime: 0.3
-  castingTime: 0.2
+  animationAttackTime: 0.46
+  castingTime: 0.3
   projectilePrefab: {fileID: 5881734264313201649, guid: ce9bf0983b157c3408963ceb56fe7591,
+    type: 3}
+  castSpellPrefab: {fileID: 6342822647309273051, guid: 4b890a6c3a9a1634487045d4cd1eafea,
     type: 3}

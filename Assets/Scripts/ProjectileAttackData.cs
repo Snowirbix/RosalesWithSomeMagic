@@ -24,4 +24,6 @@ public class ProjectileAttackData : AttackData
     public float castingTime = 0.20f;
 
     public GameObject projectilePrefab;
+
+    public GameObject castSpellPrefab;
 }

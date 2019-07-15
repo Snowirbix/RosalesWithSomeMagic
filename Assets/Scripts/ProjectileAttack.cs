@@ -82,14 +82,15 @@ public class ProjectileAttack : Attack
         {
             isTriggered = true;
             castingTimeUsed = data.castingTime;
-            RpcStartAnimation();
+            RpcCastSpell(positionStart, rotationStart);
         }
     }
 
     [ClientRpc]
-    protected void RpcStartAnimation ()
+    protected void RpcCastSpell (Vector3 pos, Quaternion rot)
     {
         animator.SetTrigger("fireball");
+        Instantiate(data.castSpellPrefab, pos, rot);
     }
 
     // called after casting time

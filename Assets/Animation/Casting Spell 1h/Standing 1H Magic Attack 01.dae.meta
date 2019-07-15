@@ -38,8 +38,8 @@ ModelImporter:
       name: fireball
       takeName: Take 001
       internalID: 1827226128182048838
-      firstFrame: 15
-      lastFrame: 54
+      firstFrame: 10
+      lastFrame: 52
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

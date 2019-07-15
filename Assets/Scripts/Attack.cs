@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.Networking;
 
-public abstract class Attack : NetworkBehaviour {
+public abstract class Attack : NetworkBehaviour
+{
     public abstract void SetData(AttackData data);
     public abstract float GetCooldown();
     public abstract void SetDir(Vector2 dir);

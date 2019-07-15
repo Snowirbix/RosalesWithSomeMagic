@@ -10,6 +10,7 @@ public class PlayerController : NetworkBehaviour
     
     [SyncVar][ReadOnly]
     public Vector2 lookDirection = Vector2.zero;
+
     [Range(0.1f, 10f)]
     public float speed = 1f;
 
@@ -18,8 +19,10 @@ public class PlayerController : NetworkBehaviour
     [ReadOnly]
     public bool castingSpell = false;
 
-    private float animationAttackTime = 0;
+    protected float animationAttackTime = 0;
+
     protected CharacterController charController;
+
     protected Animator animator;
 
     private void Start ()

@@ -1172,6 +1172,7 @@ GameObject:
   - component: {fileID: 5514165314517761345}
   - component: {fileID: 8521214525430238796}
   - component: {fileID: 1114658305878605542}
+  - component: {fileID: 1386761510650318730}
   m_Layer: 0
   m_Name: kachujin_g_rosales
   m_TagString: Untagged
@@ -1292,7 +1293,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38bf275436eb4464091866bdedb0186a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthbar: {fileID: 0}
   health: 0
   maxHealth: 100
 --- !u!114 &6934766636244684948
@@ -1389,6 +1389,19 @@ MonoBehaviour:
   m_MovementThreshold: 0.001
   m_InterpolateRotation: 0.1
   m_InterpolateMovement: 0
+--- !u!114 &1386761510650318730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6363370117786527019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5df4c564720ae346b1917eea3e6d5f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 0}
 --- !u!1 &6363370117786527021
 GameObject:
   m_ObjectHideFlags: 0

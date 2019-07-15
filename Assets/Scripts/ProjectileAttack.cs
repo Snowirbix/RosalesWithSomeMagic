@@ -3,21 +3,24 @@ using UnityEngine.Networking;
 
 public class ProjectileAttack : Attack
 {
+    [ReadOnly]
     public ProjectileAttackData data;
 
-    private Vector2 dir2;
+    protected Vector2 dir2;
 
-    private GameObject AttackOwner;
+    protected GameObject AttackOwner;
 
-    private SphereCollider sphereCollider;
+    protected SphereCollider sphereCollider;
 
-    private Vector3 positionStart;
+    protected Vector3 positionStart;
 
-    private Quaternion rotationStart;
+    protected Quaternion rotationStart;
 
-    private float castingTimeUsed;
+    protected float castingTimeUsed;
 
-    private bool isTriggered = false;
+    protected bool isTriggered = false;
+
+    protected Animator animator;
 
     public override void SetData (AttackData data)
     {
@@ -48,21 +51,20 @@ public class ProjectileAttack : Attack
     {
         positionStart = pos;
     }
-    
+
     public override void SetRotation (Quaternion rot)
     {
         rotationStart = rot;
     }
-    
-    public override void Trigger ()
+
+    private void Start ()
     {
-        isTriggered = true;
-        castingTimeUsed = data.castingTime;
+        animator = GetComponent<Animator>();
     }
 
     private void Update ()
     {
-        if (isTriggered)
+        if (isServer && isTriggered)
         {
             castingTimeUsed -= Time.deltaTime;
             if (castingTimeUsed <= 0)
@@ -73,15 +75,36 @@ public class ProjectileAttack : Attack
         }
     }
 
-    private void Fire ()
+    // start casting spell
+    public override void Trigger ()
     {
-        GameObject instance = Instantiate(data.projectilePrefab, positionStart, rotationStart);
-        ProjectileAttackBehaviour pab = instance.transform.GetComponent<ProjectileAttackBehaviour>();
-        pab.SetDir(dir2);
-        pab.SetRange(data.range);
-        pab.SetAttackOwner(AttackOwner);
-        pab.SetSpeed(data.speed);
-        pab.SetDamage(data.damage);
-        NetworkServer.Spawn(instance);
+        if (isServer)
+        {
+            isTriggered = true;
+            castingTimeUsed = data.castingTime;
+            RpcStartAnimation();
+        }
+    }
+
+    [ClientRpc]
+    protected void RpcStartAnimation ()
+    {
+        animator.SetTrigger("fireball");
+    }
+
+    // called after casting time
+    protected void Fire ()
+    {
+        if (isServer)
+        {
+            GameObject instance = Instantiate(data.projectilePrefab, positionStart, rotationStart);
+            ProjectileAttackBehaviour pab = instance.transform.GetComponent<ProjectileAttackBehaviour>();
+            pab.SetDir(dir2);
+            pab.SetRange(data.range);
+            pab.SetAttackOwner(AttackOwner);
+            pab.SetSpeed(data.speed);
+            pab.SetDamage(data.damage);
+            NetworkServer.Spawn(instance);
+        }
     }
 }

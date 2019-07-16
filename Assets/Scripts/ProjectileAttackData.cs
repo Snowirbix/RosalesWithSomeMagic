@@ -23,7 +23,11 @@ public class ProjectileAttackData : AttackData
 
     public float castingTime = 0.20f;
 
+    public GameObject castSpellFX;
+
+    public GameObject castSpellHandFX;
+
     public GameObject projectilePrefab;
 
-    public GameObject castSpellPrefab;
+    public GameObject fireSpellFX;
 }

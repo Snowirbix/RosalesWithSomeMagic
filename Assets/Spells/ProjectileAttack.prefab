@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6203518077710034826}
   - component: {fileID: -3297195040329002056}
+  - component: {fileID: 8171799948177377938}
   - component: {fileID: -2610985092932344938}
   - component: {fileID: 1686754842419642280}
-  - component: {fileID: -2545324659571281111}
   m_Layer: 0
   m_Name: ProjectileAttack
   m_TagString: Untagged
@@ -48,8 +48,24 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.4
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &8171799948177377938
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5881734264313201649}
+  serializedVersion: 2
+  m_Mass: 10
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 116
+  m_CollisionDetection: 0
 --- !u!114 &-2610985092932344938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,39 +78,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5028f3eccb79dd742bf143157b6b1484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scale:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0.000045776367
-      value: 2.0001526
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.13408709
-      value: 1
-      inSlope: -16.711891
-      outSlope: 0
-      tangentMode: 1
-      weightedMode: 0
-      inWeight: 0.056678012
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!114 &1686754842419642280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,28 +111,6 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &-2545324659571281111
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5881734264313201649}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13d6c522af31447398568cc65334232b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.033333335
-  m_SyncRotationAxis: 0
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 0.1
-  m_InterpolateMovement: 0.1
 --- !u!1 &5974439441589760997
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,7 +138,7 @@ Transform:
   m_GameObject: {fileID: 5974439441589760997}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: -0.01, z: 0.1}
-  m_LocalScale: {x: 1.4, y: 1.8, z: 1}
+  m_LocalScale: {x: 1, y: 1.4, z: 1}
   m_Children: []
   m_Father: {fileID: 6203518077710034826}
   m_RootOrder: 0

@@ -50,7 +50,7 @@ public class PlayerInput : NetworkBehaviour
 
             if(Input.GetMouseButtonDown(0))
             {
-                spellManager.LeftClick(playerController.lookDirection);
+                spellManager.LeftClick(dir2.normalized);
             }
         }
     }

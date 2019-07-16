@@ -3,6 +3,8 @@ using UnityEngine.Networking;
 
 public class ProjectileAttack : Attack
 {
+    public Transform rightHand;
+
     [ReadOnly]
     public ProjectileAttackData data;
 
@@ -34,7 +36,7 @@ public class ProjectileAttack : Attack
 
     public override void SetDir (Vector2 lookDir)
     {
-        dir2 = lookDir.normalized;
+        dir2 = lookDir;
     }
 
     public override void SetAttackOwner (GameObject Owner)
@@ -64,9 +66,10 @@ public class ProjectileAttack : Attack
 
     private void Update ()
     {
-        if (isServer && isTriggered)
+        if (isTriggered)
         {
             castingTimeUsed -= Time.deltaTime;
+
             if (castingTimeUsed <= 0)
             {
                 Fire();
@@ -81,31 +84,33 @@ public class ProjectileAttack : Attack
         if (isServer)
         {
             isTriggered = true;
+            RpcTrigger(positionStart, rotationStart, dir2);
             castingTimeUsed = data.castingTime;
-            RpcCastSpell(positionStart, rotationStart);
         }
     }
 
     [ClientRpc]
-    protected void RpcCastSpell (Vector3 pos, Quaternion rot)
+    protected void RpcTrigger (Vector3 pos, Quaternion rot, Vector2 dir)
     {
+        castingTimeUsed = data.castingTime;
+        isTriggered = true;
+        dir2 = dir;
+        positionStart = pos;
+        rotationStart = rot;
         animator.SetTrigger("fireball");
-        Instantiate(data.castSpellPrefab, pos, rot);
+        Instantiate(data.castSpellFX, pos, rot);
+        Instantiate(data.castSpellHandFX, rightHand.position, rightHand.rotation, rightHand);
     }
 
     // called after casting time
     protected void Fire ()
     {
-        if (isServer)
-        {
-            GameObject instance = Instantiate(data.projectilePrefab, positionStart, rotationStart);
-            ProjectileAttackBehaviour pab = instance.transform.GetComponent<ProjectileAttackBehaviour>();
-            pab.SetDir(dir2);
-            pab.SetRange(data.range);
-            pab.SetAttackOwner(AttackOwner);
-            pab.SetSpeed(data.speed);
-            pab.SetDamage(data.damage);
-            NetworkServer.Spawn(instance);
-        }
+        Instantiate(data.fireSpellFX, positionStart, rotationStart);
+        GameObject instance = Instantiate(data.projectilePrefab, positionStart, rotationStart);
+        ProjectileAttackBehaviour pab = instance.transform.GetComponent<ProjectileAttackBehaviour>();
+        pab.SetRange(data.range);
+        pab.SetAttackOwner(AttackOwner);
+        pab.SetDamage(data.damage);
+        instance.GetComponent<Rigidbody>().velocity = new Vector3(dir2.x, 0, dir2.y) * data.speed;
     }
 }

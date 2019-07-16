@@ -1401,6 +1401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5df4c564720ae346b1917eea3e6d5f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rightHand: {fileID: 6363370117787023707}
   data: {fileID: 0}
 --- !u!1 &6363370117786527021
 GameObject:
@@ -2849,7 +2850,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3722711784497274688}
   m_Layer: 0
-  m_Name: RightSpellSpawn
+  m_Name: SpellSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2863,7 +2864,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7821556584406960175}
   m_LocalRotation: {x: -0.00035914747, y: 0.00000038190453, z: -0.000022151158, w: 1}
-  m_LocalPosition: {x: 0, y: 1.592, z: 0.779}
+  m_LocalPosition: {x: -0, y: 1.25, z: 0.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6363370117942861870}

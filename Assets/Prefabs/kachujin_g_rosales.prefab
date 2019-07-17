@@ -1278,7 +1278,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21683f752918b2a4ab12729c37dfcba6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rightHandSpellSpawn: {fileID: 7821556584406960175}
   attackDataLeftClick: {fileID: 11400000, guid: ee7414fb66c33d44d9e1233b22c3a540,
     type: 2}
   attackLeftClick: {fileID: 0}
@@ -1360,16 +1359,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13d6c522af31447398568cc65334232b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.033333335
+  m_TransformSyncMode: 4
+  m_SendInterval: 0.04761905
   m_SyncRotationAxis: 0
   m_RotationSyncCompression: 0
   m_SyncSpin: 0
   m_MovementTheshold: 0.001
   m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
+  m_SnapThreshold: 2
   m_InterpolateRotation: 0.1
-  m_InterpolateMovement: 0.1
+  m_InterpolateMovement: 1
 --- !u!114 &1114658305878605542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1384,11 +1383,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Target: {fileID: 6363370117942861870}
   m_ChildIndex: 0
-  m_SendInterval: 0.033333335
+  m_SendInterval: 0.04761905
   m_SyncRotationAxis: 2
   m_RotationSyncCompression: 0
   m_MovementThreshold: 0.001
-  m_InterpolateRotation: 0.1
+  m_InterpolateRotation: 1
   m_InterpolateMovement: 0
 --- !u!114 &1386761510650318730
 MonoBehaviour:
@@ -1402,8 +1401,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5df4c564720ae346b1917eea3e6d5f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rightHand: {fileID: 6363370117787023707}
   data: {fileID: 0}
+  direction: {x: 0, y: 0}
+  position: {x: 0, y: 0, z: 0}
+  rotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &1983983540135891644
 MonoBehaviour:
   m_ObjectHideFlags: 0

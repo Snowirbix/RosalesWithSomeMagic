@@ -11,7 +11,7 @@ public class SpellManager : NetworkBehaviour
 
     protected float cdClickLeft;
 
-    protected float cdClickLeftUsed = 0;
+    public float cdClickLeftUsed = 0;
     
     protected PlayerController playerController;
 

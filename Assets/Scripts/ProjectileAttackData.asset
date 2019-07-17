@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53b05ccd888257e4cb599b6c433beff0, type: 3}
   m_Name: ProjectileAttackData
   m_EditorClassIdentifier: 
+  cooldown: 1
+  animationAttackTime: 0.46
   range: 10
   speed: 13
-  cooldown: 1
   damage: 10
-  animationAttackTime: 0.46
   castingTime: 0.3
   castSpellFX: {fileID: 6342822647309273051, guid: 4b890a6c3a9a1634487045d4cd1eafea,
     type: 3}
@@ -25,4 +25,6 @@ MonoBehaviour:
   projectilePrefab: {fileID: 5881734264313201649, guid: ce9bf0983b157c3408963ceb56fe7591,
     type: 3}
   fireSpellFX: {fileID: 5282877352112107615, guid: 39b9631474606504b94f7f3919a75a7b,
+    type: 3}
+  spellHitFx: {fileID: 4717398040764963464, guid: 9c47800488e55b044bfac2c00c3716e1,
     type: 3}

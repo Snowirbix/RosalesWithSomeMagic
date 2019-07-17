@@ -1173,6 +1173,7 @@ GameObject:
   - component: {fileID: 8521214525430238796}
   - component: {fileID: 1114658305878605542}
   - component: {fileID: 1386761510650318730}
+  - component: {fileID: 1983983540135891644}
   m_Layer: 0
   m_Name: kachujin_g_rosales
   m_TagString: Untagged
@@ -1403,6 +1404,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rightHand: {fileID: 6363370117787023707}
   data: {fileID: 0}
+--- !u!114 &1983983540135891644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6363370117786527019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a5755b378740eb468682c8fb59c0b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spellSpawnPoint: {fileID: 3722711784497274688}
+  damageSpawnPoint: {fileID: 6363370117787023491}
+  rightHand: {fileID: 6363370117787023707}
 --- !u!1 &6363370117786527021
 GameObject:
   m_ObjectHideFlags: 0
@@ -2850,7 +2866,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3722711784497274688}
   m_Layer: 0
-  m_Name: SpellSpawn
+  m_Name: SpellSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

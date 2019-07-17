@@ -1,10 +1,9 @@
+using System;
 using UnityEngine;
 using UnityEngine.Networking;
 
 public class SpellManager : NetworkBehaviour
 {
-    public GameObject rightHandSpellSpawn;
-
     public AttackData attackDataLeftClick;
 
     [ReadOnly]
@@ -18,25 +17,28 @@ public class SpellManager : NetworkBehaviour
 
     protected Animator animator;
 
+    [Obsolete("Change lookDirection to direction and get the click position")]
     public void LeftClick (Vector2 lookDirection)
     {
         if (cdClickLeftUsed <= 0)
         {
+            if (!isServer)
+            {
+                cdClickLeftUsed = cdClickLeft;
+            }
             CmdLeftClick(lookDirection);
-            playerController.SetAnimationAttackTime(attackLeftClick.GetAnimationAttackTime());
+            playerController.SetAnimationAttackTime(attackLeftClick.data.animationAttackTime);
         }
     }
 
     [Command]
     protected void CmdLeftClick (Vector2 lookDirection)
     {
-        if (cdClickLeftUsed <= 0)
+        // quick fix when latency
+        if (cdClickLeftUsed <= 0.2f)
         {
             cdClickLeftUsed = cdClickLeft;
-            attackLeftClick.SetPosition(rightHandSpellSpawn.transform.position);
-            attackLeftClick.SetRotation(rightHandSpellSpawn.transform.rotation);
-            attackLeftClick.SetDir(lookDirection);
-            attackLeftClick.SetAttackOwner(transform.gameObject);
+            attackLeftClick.direction = lookDirection;
             attackLeftClick.Trigger();
         }
     }
@@ -49,19 +51,16 @@ public class SpellManager : NetworkBehaviour
         // Get the script related to the data
         attackLeftClick = GetComponent(attackDataLeftClick.GetType()) as Attack;
         // Set the data to the script
-        attackLeftClick.SetData(attackDataLeftClick);
+        attackLeftClick.data = attackDataLeftClick;
 
-        cdClickLeft = attackLeftClick.GetCooldown();
+        cdClickLeft = attackLeftClick.data.cooldown;
     }
 
     private void Update ()
     {
-        if (isServer)
+        if (cdClickLeftUsed > 0)
         {
-            if (cdClickLeftUsed > 0)
-            {
-                cdClickLeftUsed -= Time.deltaTime;
-            }
+            cdClickLeftUsed -= Time.deltaTime;
         }
     }
 }

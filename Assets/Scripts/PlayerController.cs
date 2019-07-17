@@ -19,7 +19,7 @@ public class PlayerController : NetworkBehaviour
     [ReadOnly]
     public bool castingSpell = false;
 
-    protected float animationAttackTime = 0;
+    protected float animationAttackTime;
 
     protected CharacterController charController;
 
@@ -45,6 +45,8 @@ public class PlayerController : NetworkBehaviour
                 Move();
                 Rotate();
             }
+
+            Animate();
         }
         else
         {
@@ -52,12 +54,10 @@ public class PlayerController : NetworkBehaviour
 
             if(animationAttackTime <= 0)
             {
-                animationAttackTime = 0;
                 castingSpell = false;
             }
         }
 
-        Animate();
     }
 
     protected void Move ()
@@ -96,10 +96,10 @@ public class PlayerController : NetworkBehaviour
         animator.SetFloat("y", y);
     }
 
-    public void SetAnimationAttackTime (float attackTime)
+    public void SetAnimationAttackTime (float animationAttackTime)
     {
         castingSpell = true;
-        animationAttackTime = attackTime;
+        this.animationAttackTime = animationAttackTime;
     }
 
     public void SetMoveDirection (Vector3 direction)
@@ -114,13 +114,13 @@ public class PlayerController : NetworkBehaviour
         this.CmdSetLookDirection(direction);
     }
 
-    [Command]
+    [Command(channel = Channels.DefaultUnreliable)]
     public void CmdSetMoveDirection (Vector3 direction)
     {
         this.moveDirection = direction;
     }
 
-    [Command]
+    [Command(channel = Channels.DefaultUnreliable)]
     public void CmdSetLookDirection (Vector3 direction)
     {
         this.lookDirection = direction;

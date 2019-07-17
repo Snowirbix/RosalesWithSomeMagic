@@ -15,11 +15,7 @@ public class ProjectileAttackData : AttackData
     [Range(5f, 20f)]
     public float speed = 12f;
 
-    public float cooldown = 1f;
-
     public int damage = 10;
-
-    public float animationAttackTime = 0.30f;
 
     public float castingTime = 0.20f;
 
@@ -30,4 +26,6 @@ public class ProjectileAttackData : AttackData
     public GameObject projectilePrefab;
 
     public GameObject fireSpellFX;
+
+    public GameObject spellHitFx;
 }

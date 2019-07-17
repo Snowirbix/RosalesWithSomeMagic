@@ -1,19 +1,21 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Networking;
-using System;
 
 [RequireComponent(typeof(Rigidbody))]
 public class ProjectileAttackBehaviour : NetworkBehaviour
 {
-    protected float range;
+    public int id;
 
-    protected GameObject AttackOwner;
-
-    protected int damage;
-
-    protected SphereCollider sphereCollider;
+    public float range;
 
     protected Vector3 positionStart;
+
+    protected GameObject attackOwner;
+
+    protected ProjectileAttack projectileAttack;
+
+    protected SphereCollider sphereCollider;
 
     private void Start()
     {
@@ -25,42 +27,28 @@ public class ProjectileAttackBehaviour : NetworkBehaviour
     {
         Vector3 offset = positionStart - transform.position;
 
-        float x = offset.magnitude / range;
-
-        if (x >= 1.0f)
+        // destroy when range is reached
+        if (offset.sqrMagnitude >= range * range)
         {
             Destroy(gameObject);
         }
     }
 
-    private void OnTriggerEnter (Collider coll)
+    private void OnTriggerEnter (Collider collider)
     {
         // if we are on the server
         if (NetworkServer.active)
         {
-            if (coll.gameObject != AttackOwner)
+            if (collider.gameObject != attackOwner)
             {
-                //deal damage
-                Health hp = coll.GetComponent<Health>();
-                hp.TakeDamage(damage);
+                projectileAttack.Hit(this.id, collider.gameObject);
             }
         }
-        
-        Destroy(gameObject);
     }
 
-    public void SetAttackOwner (GameObject Owner)
+    public void SetOwner (ProjectileAttack projectileAttack)
     {
-        AttackOwner = Owner;
-    }
-
-    public void SetRange (float range)
-    {
-        this.range = range;
-    }
-
-    public void SetDamage (int damage)
-    {
-        this.damage = damage;
+        this.projectileAttack = projectileAttack;
+        this.attackOwner = projectileAttack.gameObject;
     }
 }

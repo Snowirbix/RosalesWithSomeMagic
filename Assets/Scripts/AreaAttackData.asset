@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ce8ff4c1c63f634982009ace92707e8, type: 3}
+  m_Name: AreaAttackData
+  m_EditorClassIdentifier: 
+  cooldown: 2
+  animationAttackTime: 0
+  range: 10
+  damage: 10
+  castingTime: 0.2
+  castSpellFX: {fileID: 6342822647309273051, guid: 4b890a6c3a9a1634487045d4cd1eafea,
+    type: 3}
+  castSpellHandFX: {fileID: 4717398040764963464, guid: 857986c143032c043a483c31b875cbfb,
+    type: 3}
+  fireSpellFX: {fileID: 1087346738214643227, guid: 7276e386c2f9c9244b2f19e07b528892,
+    type: 3}
+  spellHitFx: {fileID: 4717398040764963464, guid: 9c47800488e55b044bfac2c00c3716e1,
+    type: 3}

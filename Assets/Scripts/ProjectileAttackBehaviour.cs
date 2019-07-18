@@ -15,11 +15,8 @@ public class ProjectileAttackBehaviour : NetworkBehaviour
 
     protected ProjectileAttack projectileAttack;
 
-    protected SphereCollider sphereCollider;
-
     private void Start()
     {
-        sphereCollider = GetComponent<SphereCollider>();
         positionStart = transform.position;
     }
 

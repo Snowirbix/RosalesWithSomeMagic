@@ -1,15 +1,15 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections.Generic;
 
-public class ProjectileAttack : Attack
+public class AreaAttack : Attack
 {
-    public new ProjectileAttackData data
+    public new AreaAttackData data
     {
         get
         {
-            return (ProjectileAttackData)base.data;
+            return (AreaAttackData)base.data;
         }
         set
         {
@@ -69,7 +69,7 @@ public class ProjectileAttack : Attack
             isTriggered = true;
 
             // set variables
-            this.position = skeleton.spellSpawnPoint.position;
+            this.position = clickPoint;
             this.direction = direction;
             this.rotation = rotation;
 
@@ -77,7 +77,7 @@ public class ProjectileAttack : Attack
             RpcTrigger(position, direction, rotation, currentId);
         }
     }
-
+    
     [ClientRpc]
     protected void RpcTrigger (Vector3 position, Vector2 direction, Quaternion rotation, int id)
     {
@@ -102,38 +102,12 @@ public class ProjectileAttack : Attack
     // called after casting time
     protected void Fire ()
     {
-        // VFX
-        Instantiate(data.fireSpellFX, position, rotation);
+        // Area FX
+        instances.Add(currentId, Instantiate(data.fireSpellFX, position, rotation));
 
-        // Projectile
-        instances.Add(currentId, Instantiate(data.projectilePrefab, position, rotation));
-
-        ProjectileAttackBehaviour pab = instances[currentId].GetComponent<ProjectileAttackBehaviour>();
-            pab.id = currentId;
-            pab.range = data.range;
-            pab.SetOwner(this);
-
-        instances[currentId].GetComponent<Rigidbody>().velocity = new Vector3(direction.x, 0, direction.y) * data.speed;
+        AreaAttackBehaviour aab = instances[currentId].GetComponent<AreaAttackBehaviour>();
+            aab.id = currentId;
+            aab.SetOwner(this);
     }
 
-    public void Hit (int id, GameObject target)
-    {
-        Health hp = target.GetComponent<Health>();
-            hp.TakeDamage(data.damage);
-        
-        RpcHit(id, target);
-    }
-
-    [ClientRpc(channel = Channels.DefaultUnreliable)]
-    protected void RpcHit (int id, GameObject target)
-    {
-        // VFX
-        Skeleton targetSkel = target.GetComponent<Skeleton>();
-        Instantiate(data.spellHitFx, targetSkel.damageSpawnPoint.position, targetSkel.damageSpawnPoint.rotation, targetSkel.damageSpawnPoint.transform);
-
-        if (instances[id] != null)
-        {
-            Destroy(instances[id]);
-        }
-    }
 }

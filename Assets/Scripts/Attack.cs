@@ -6,12 +6,11 @@ public abstract class Attack : NetworkBehaviour
 {
     public AttackData data;
 
-    public Vector2 direction;
+    protected Vector2 direction;
 
-    public Vector3 position;
+    protected Vector3 position;
 
-    public Quaternion rotation;
+    protected Quaternion rotation;
     
-    public abstract void Trigger();
-
+    public abstract void Trigger (Vector3 clickPoint, Vector2 direction, Quaternion rotation);
 }

@@ -5,9 +5,9 @@ using UnityEngine.Networking;
 public class PlayerInput : NetworkBehaviour
 {
     public LayerMask groundLayer;
-    private PlayerController playerController;
+    protected PlayerController playerController;
 
-    private SpellManager spellManager;
+    protected SpellManager spellManager;
 
     private void Start ()
     {
@@ -25,7 +25,7 @@ public class PlayerInput : NetworkBehaviour
         Mouse();
     }
 
-    private void Keyboard()
+    protected void Keyboard()
     {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
@@ -36,7 +36,7 @@ public class PlayerInput : NetworkBehaviour
         playerController.SetMoveDirection(dir2);
     }
 
-    private void Mouse ()
+    protected void Mouse ()
     {
         RaycastHit hit;
 
@@ -44,13 +44,20 @@ public class PlayerInput : NetworkBehaviour
         {
             Vector3 dir3 = (hit.point - transform.position);
             Vector2 dir2 = new Vector2(dir3.x, dir3.z);
-            dir2 = (dir2.magnitude > 1f) ? dir2.normalized : dir2;
+            Vector2 lookDirection = (dir2.magnitude > 1f) ? dir2.normalized : dir2;
+            dir2.Normalize();
+            Quaternion rotation = Quaternion.AngleAxis(Mathf.Atan2(dir2.x, dir2.y) * Mathf.Rad2Deg, Vector3.up);
 
-            playerController.SetLookDirection(dir2);
+            playerController.SetLookDirection(lookDirection);
 
             if(Input.GetMouseButtonDown(0))
             {
-                spellManager.LeftClick(dir2.normalized);
+                spellManager.LeftClick(hit.point, dir2, rotation);
+            }
+            
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                spellManager.Ultimate(hit.point, dir2, rotation);
             }
         }
     }

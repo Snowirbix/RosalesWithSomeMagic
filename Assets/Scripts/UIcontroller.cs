@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
-public class UIcontroller : MonoBehaviour
+public class UIcontroller : NetworkBehaviour
 {
 
     public SpellManager spellManager;
@@ -18,6 +19,7 @@ public class UIcontroller : MonoBehaviour
 
     public Text cooldownLeftText;
 
+    public Canvas uI;
     private float health;
     private float maxHealth;
 
@@ -26,6 +28,10 @@ public class UIcontroller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (!isLocalPlayer)
+        {
+            uI.enabled = false;
+        }
         //Set spell image here and life
         maxHealth = healthScript.maxHealth;
         health = maxHealth;

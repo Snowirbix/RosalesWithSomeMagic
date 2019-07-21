@@ -21,14 +21,22 @@ public class PlayerController : NetworkBehaviour
 
     protected float animationAttackTime;
 
+
+    #region components
+
     protected CharacterController charController;
 
     protected Animator animator;
+
+    protected State state;
+
+    #endregion components
 
     private void Start ()
     {
         charController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        state = GetComponent<State>();
 
         if (!rotator)
         {
@@ -62,8 +70,11 @@ public class PlayerController : NetworkBehaviour
 
     protected void Move ()
     {
-        Vector3 dir3 = new Vector3(moveDirection.x, 0, moveDirection.y);
-        charController.Move(dir3 * speed * Time.deltaTime);
+        if (!state.root)
+        {
+            Vector3 dir3 = new Vector3(moveDirection.x, 0, moveDirection.y);
+            charController.Move(dir3 * speed * Time.deltaTime * state.speed);
+        }
     }
 
     protected void Rotate ()
@@ -76,7 +87,7 @@ public class PlayerController : NetworkBehaviour
         float x = 0f;
         float y = 0f;
 
-        if (!moveDirection.Equals(Vector2.zero))
+        if (!state.root && !moveDirection.Equals(Vector2.zero))
         {
             float magnitude = moveDirection.magnitude;
             Vector2 moveDir = moveDirection.normalized;
@@ -104,8 +115,8 @@ public class PlayerController : NetworkBehaviour
 
     public void SetMoveDirection (Vector3 direction)
     {
-        this.moveDirection = direction;
-        this.CmdSetMoveDirection(direction);
+        this.moveDirection = direction * state.speed;
+        this.CmdSetMoveDirection(direction * state.speed);
     }
 
     public void SetLookDirection (Vector3 direction)

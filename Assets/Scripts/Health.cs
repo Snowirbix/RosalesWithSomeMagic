@@ -4,7 +4,7 @@ using UnityEngine.Networking;
 public class Health : NetworkBehaviour
 {
     [ReadOnly][SyncVar(hook = "OnChangedHealth")]
-    public float health;
+    public float health = 0;
 
     public float maxHealth = 100f;
 
@@ -13,8 +13,20 @@ public class Health : NetworkBehaviour
     private void Start()
     {
         healthbar = GetComponent<Healthbar>();
-        
-        health = maxHealth;
+
+        if (isServer)
+        {
+            health = maxHealth;
+        }
+    }
+
+    public void Heal (int value)
+    {
+        if (isServer)
+        {
+            health += value;
+            healthbar.Heal(health / maxHealth);
+        }
     }
 
     public void TakeDamage (int value)
@@ -31,16 +43,19 @@ public class Health : NetworkBehaviour
     {
         if (!isServer)
         {
-            healthbar.TakeDamage(h / maxHealth);
-        }
-    }
-
-    public void Heal (int value)
-    {
-        if (isServer)
-        {
-            health += value;
-            healthbar.Heal(health / maxHealth);
+            // this hook can be called before Start
+            if (healthbar == null)
+            {
+                healthbar = GetComponent<Healthbar>();
+            }
+            if (h < health)
+            {
+                healthbar.TakeDamage(h / maxHealth);
+            }
+            else
+            {
+                healthbar.Heal(h / maxHealth);
+            }
         }
     }
 }

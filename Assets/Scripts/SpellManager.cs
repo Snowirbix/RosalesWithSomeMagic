@@ -38,12 +38,15 @@ public class SpellManager : NetworkBehaviour
 
     protected Animator animator;
 
+    protected State state;
+
     #endregion components
 
     private void Start ()
     {
-        animator = GetComponent<Animator>();
         playerController = GetComponent<PlayerController>();
+        animator = GetComponent<Animator>();
+        state = GetComponent<State>();
         
         // Get the script related to the data
         attackLeftClick = GetComponent(attackDataLeftClick.GetType()) as Attack;
@@ -75,7 +78,7 @@ public class SpellManager : NetworkBehaviour
 
     public void LeftClick (Vector3 clickPoint, Vector2 direction, Quaternion rotation)
     {
-        if (cdClickLeftUsed <= 0)
+        if (cdClickLeftUsed <= 0 && !state.silence)
         {
             if (!isServer)
             {
@@ -90,7 +93,7 @@ public class SpellManager : NetworkBehaviour
     protected void CmdLeftClick (Vector3 clickPoint, Vector2 direction, Quaternion rotation)
     {
         // quick fix when latency
-        if (cdClickLeftUsed <= 0.2f)
+        if (cdClickLeftUsed <= 0.1f && !state.silence)
         {
             cdClickLeftUsed = cdClickLeft;
             attackLeftClick.Trigger(clickPoint, direction, rotation);
@@ -99,7 +102,7 @@ public class SpellManager : NetworkBehaviour
 
     public void Ultimate (Vector3 clickPoint, Vector2 direction, Quaternion rotation)
     {
-        if (cdUltimateUsed <= 0)
+        if (cdUltimateUsed <= 0 && !state.silence)
         {
             if (!isServer)
             {
@@ -114,7 +117,7 @@ public class SpellManager : NetworkBehaviour
     protected void CmdUltimate (Vector3 clickPoint, Vector2 direction, Quaternion rotation)
     {
         // quick fix when latency
-        if (cdUltimateUsed <= 0.2f)
+        if (cdUltimateUsed <= 0.1f && !state.silence)
         {
             cdUltimateUsed = cdUltimate;
             attackUltimate.Trigger(clickPoint, direction, rotation);

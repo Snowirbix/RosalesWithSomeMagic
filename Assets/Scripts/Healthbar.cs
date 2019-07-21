@@ -29,20 +29,12 @@ public class Healthbar : NetworkBehaviour
 
     private void Update()
     {
-        bool found = false;
-
         for (int i = changes.Count-1; i >= 0; i--)
         {
-            if (found)
-            {
-                // remove older changes
-                changes.RemoveAt(i);
-            }
-            else if (Time.unscaledTime > changes[i].time + deltaTime)
+            if (Time.unscaledTime > changes[i].time + deltaTime)
             {
                 damageBar.sizeDelta = new Vector2(changes[i].healthRatio * maxWidth, damageBar.sizeDelta.y);
                 changes.RemoveAt(i);
-                found = true;
             }
         }
     }

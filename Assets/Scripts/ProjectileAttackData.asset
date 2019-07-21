@@ -18,6 +18,30 @@ MonoBehaviour:
   speed: 13
   damage: 10
   castingTime: 0.3
+  slowCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.6
+      inSlope: -0.0007311573
+      outSlope: -0.0007311573
+      tangentMode: 0
+      weightedMode: 2
+      inWeight: 0
+      outWeight: 0.50551146
+    - serializedVersion: 3
+      time: 2
+      value: 0
+      inSlope: -0.0052795815
+      outSlope: -0.3550863
+      tangentMode: 1
+      weightedMode: 1
+      inWeight: 0.19939578
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   castSpellFX: {fileID: 6342822647309273051, guid: 4b890a6c3a9a1634487045d4cd1eafea,
     type: 3}
   castSpellHandFX: {fileID: 4717398040764963464, guid: 857986c143032c043a483c31b875cbfb,

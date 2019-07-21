@@ -19,6 +19,8 @@ public class ProjectileAttackData : AttackData
 
     public float castingTime = 0.20f;
 
+    public AnimationCurve slowCurve;
+
     public GameObject castSpellFX;
 
     public GameObject castSpellHandFX;

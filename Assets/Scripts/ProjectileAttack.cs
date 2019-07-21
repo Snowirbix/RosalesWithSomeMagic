@@ -122,6 +122,26 @@ public class ProjectileAttack : Attack
             hp.TakeDamage(data.damage);
         
         RpcHit(id, target);
+
+        TargetHit(target.GetComponent<NetworkIdentity>().connectionToClient, target);
+    }
+
+    // executes on target machine
+    // on the attacker gameObject
+    [TargetRpc]
+    protected void TargetHit (NetworkConnection target, GameObject goTarget)
+    {
+        State state = goTarget.GetComponent<State>();
+
+        State.TempModifier modifier = new State.TempModifier(1f);
+
+        State.ModifierUpdate update = (State.Data d) => {
+            d.speed -= data.slowCurve.Evaluate(1f-modifier.time);
+        };
+
+        modifier.SetDelegate(update);
+
+        state.AddLocalModifier(modifier);
     }
 
     [ClientRpc(channel = Channels.DefaultUnreliable)]

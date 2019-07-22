@@ -8,4 +8,6 @@ public abstract class AttackData : ScriptableObject
     public float cooldown;
     
     public float animationAttackTime;
+
+    public Sprite image;
 }

@@ -19,6 +19,8 @@ public class UIcontroller : NetworkBehaviour
 
     public Text cooldownLeftText;
 
+    public Image leftClickSpell;
+
     public Canvas uI;
     private float health;
     private float maxHealth;
@@ -33,6 +35,7 @@ public class UIcontroller : NetworkBehaviour
             uI.enabled = false;
         }
         //Set spell image here and life
+        leftClickSpell.sprite = spellManager.attackDataLeftClick.image;
         maxHealth = healthScript.maxHealth;
         health = maxHealth;
         lifeText.text = health.ToString() + "/" + maxHealth.ToString();

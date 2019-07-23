@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: ProjectileAttackData
   m_EditorClassIdentifier: 
   cooldown: 1
-  animationAttackTime: 0.46
+  animationAttackTime: 0.6
+  image: {fileID: 21300000, guid: 887257945e30d514696a461b978dbee9, type: 3}
   range: 10
   speed: 13
   damage: 10

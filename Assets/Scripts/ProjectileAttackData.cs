@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "ProjectileAttackData", menuName = "ScriptableObjects/ProjectileAttackData", order = 1)]
 public class ProjectileAttackData : AttackData

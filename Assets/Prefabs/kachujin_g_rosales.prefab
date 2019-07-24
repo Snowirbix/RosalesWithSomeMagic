@@ -1180,7 +1180,7 @@ GameObject:
   - component: {fileID: 2188720187879727267}
   m_Layer: 0
   m_Name: kachujin_g_rosales
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2965,6 +2965,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6363370117787023627}
     m_Modifications:
+    - target: {fileID: 4841145746356623843, guid: 1b0251d41f9704f43bd18ddd1388f788,
+        type: 3}
+      propertyPath: m_Name
+      value: UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 4841145747809522750, guid: 1b0251d41f9704f43bd18ddd1388f788,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4841145747809522750, guid: 1b0251d41f9704f43bd18ddd1388f788,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4841145746356623847, guid: 1b0251d41f9704f43bd18ddd1388f788,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3070,11 +3085,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4841145746356623843, guid: 1b0251d41f9704f43bd18ddd1388f788,
-        type: 3}
-      propertyPath: m_Name
-      value: UI
-      objectReference: {fileID: 0}
     - target: {fileID: 4841145746449318996, guid: 1b0251d41f9704f43bd18ddd1388f788,
         type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -3084,16 +3094,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 120
-      objectReference: {fileID: 0}
-    - target: {fileID: 4841145747809522750, guid: 1b0251d41f9704f43bd18ddd1388f788,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4841145747809522750, guid: 1b0251d41f9704f43bd18ddd1388f788,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b0251d41f9704f43bd18ddd1388f788, type: 3}

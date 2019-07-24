@@ -4,6 +4,8 @@ using UnityEngine.AI;
 [RequireComponent(typeof(CharacterController))]
 public class Pathfinder : MonoBehaviour
 {
+    public float speed = 3f;
+
     protected NavMeshPath path;
 
     protected Transform target;
@@ -13,7 +15,8 @@ public class Pathfinder : MonoBehaviour
     [Tooltip("Recompute path every staleTime (in seconds)")]
     public float staleTime = 1f;
 
-    public float followRadius = 10f;
+    [Tooltip("Recompute path when the target moves")]
+    public float hardFollowRadius = 10f;
 
     protected float currentPathTime = 0f;
 
@@ -37,37 +40,42 @@ public class Pathfinder : MonoBehaviour
 
     private void Update ()
     {
-        currentPathTime += Time.deltaTime;
+        if (target)
+        {
+            currentPathTime += Time.deltaTime;
 
-        // target is close (followRadius) and moved (1f)
-        if ((transform.position - target.position).sqrMagnitude < followRadius * followRadius && (target.position - lastTargetPosition).sqrMagnitude > 1f)
-        {
-            this.CalculatePath();
-        }
-        // or path is stale
-        if (currentPathTime > staleTime)
-        {
-            this.CalculatePath();
-        }
-
-        if (path.status == NavMeshPathStatus.PathComplete)
-        {
-            // waypoint reached
-            if ((path.corners[currentWaypoint] - transform.position).sqrMagnitude < waypointRadius * waypointRadius)
+            // target is close (followRadius) and moved (1f)
+            if ((transform.position - target.position).sqrMagnitude < hardFollowRadius * hardFollowRadius && (target.position - lastTargetPosition).sqrMagnitude > 1f)
             {
-                currentWaypoint++;
+                this.CalculatePath();
             }
-            // if there are still waypoints to go
-            if (path.corners.Length > currentWaypoint)
+            // or path is stale
+            if (currentPathTime > staleTime)
             {
-                controller.Move(path.corners[currentWaypoint]);
+                this.CalculatePath();
+            }
+
+            if (path.status == NavMeshPathStatus.PathComplete)
+            {
+                if (path.corners.Length > currentWaypoint)
+                {
+                    // waypoint reached
+                    if ((path.corners[currentWaypoint] - transform.position).sqrMagnitude < waypointRadius * waypointRadius)
+                    {
+                        currentWaypoint++;
+                    }
+                    // if there are still waypoints to go
+                    if (path.corners.Length > currentWaypoint)
+                    {
+                        controller.Move((path.corners[currentWaypoint] - transform.position).normalized * speed * Time.deltaTime);
+                    }
+                }
             }
         }
     }
     
     protected bool CalculatePath ()
     {
-        Debug.Log("CalcultatePath");
         lastTargetPosition = target.position;
         NavMesh.CalculatePath(transform.position, target.position, NavMesh.AllAreas, path);
         currentWaypoint = 0;

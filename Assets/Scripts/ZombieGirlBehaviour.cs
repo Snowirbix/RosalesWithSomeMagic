@@ -1,34 +1,43 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+[RequireComponent(typeof(Pathfinder))]
 public class ZombieGirlBehaviour : MonoBehaviour
 {
     public float range;
 
-    Animator animator;
-    // Start is called before the first frame update
-    void Start()
+    protected Animator animator;
+
+    protected Pathfinder pathfinder;
+    
+    private void Start ()
     {
-        animator = transform.GetComponent<Animator>();
+        animator = GetComponent<Animator>();
+        pathfinder = GetComponent<Pathfinder>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter (Collider collider)
     {
-        
+        if (collider.tag == "Player")
+        {
+            pathfinder.SetTarget(collider.transform);
+        }
     }
 
-    private void OnTriggerStay(Collider collider) {
-        Vector3 distance = collider.transform.position - gameObject.transform.position;
-        if(distance.sqrMagnitude < range * range)
+    private void OnTriggerStay (Collider collider)
+    {
+        if (collider.tag == "Player")
         {
-            animator.SetTrigger("playerInRange");
+            Vector3 direction = collider.transform.position - transform.position;
+
+            if (direction.sqrMagnitude < range * range)
+            {
+                animator.SetBool("attack", true);
+            }
+            else
+            {
+                animator.SetBool("attack", false);
+                animator.SetFloat("speed", 1.0f);
+            }
         }
-        else
-        {
-            animator.SetFloat("Speed",1.0f);
-        }
-        
     }
 }

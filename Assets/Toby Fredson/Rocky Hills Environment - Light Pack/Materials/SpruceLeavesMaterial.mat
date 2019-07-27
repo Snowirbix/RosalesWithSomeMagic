@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LeavesMaterial
+  m_Name: SpruceLeavesMaterial
   m_Shader: {fileID: -6465566751694194690, guid: 702abdd3f6adc3c4795708e731d01c70,
     type: 3}
   m_ShaderKeywords: 
@@ -32,4 +32,5 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats: []
     m_Colors:
+    - Color_CDBBD1EF: {r: 0.006666667, g: 0.01, b: 0.0033333336, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}

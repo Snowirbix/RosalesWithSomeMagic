@@ -123,7 +123,7 @@ public class ProjectileAttack : Attack
         
         RpcHit(id, target);
 
-        TargetHit(target.GetComponent<NetworkIdentity>().connectionToClient, target);
+        //TargetHit(target.GetComponent<NetworkIdentity>().connectionToClient, target);
     }
 
     // executes on target machine

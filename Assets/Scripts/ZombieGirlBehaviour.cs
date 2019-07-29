@@ -12,27 +12,18 @@ public class ZombieGirlBehaviour : MonoBehaviour
 
     protected Health healthScript;
 
-    [ReadOnly]
-    public float health = 0;
+    protected CharacterController characterController;
 
-    private bool dead = false;
-    
+    public Canvas healthBar;
+
     private void Start ()
     {
         animator = GetComponent<Animator>();
         pathfinder = GetComponent<Pathfinder>();
         healthScript = GetComponent<Health>();
-        health = healthScript.health;
+        characterController = GetComponent<CharacterController>();
     }
 
-    private void FixedUpdate()
-    {
-        health = healthScript.health;
-        if(health == 0 && !dead)
-        {
-            Death();
-        }
-    }
     private void OnTriggerEnter (Collider collider)
     {
         if (collider.tag == "Player")
@@ -59,10 +50,11 @@ public class ZombieGirlBehaviour : MonoBehaviour
         }
     }
 
-    private void Death()
+    public void Death()
     {
-        dead = true;
         pathfinder.enabled = false;
+        characterController.enabled = false;
+        healthBar.enabled = false;
         animator.SetTrigger("dead");
     }
 }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Networking;
 
 public class Health : NetworkBehaviour
@@ -9,6 +10,11 @@ public class Health : NetworkBehaviour
     public float maxHealth = 100f;
 
     protected Healthbar healthbar;
+
+    public UnityEvent DeathEvent;
+
+    [ReadOnly]
+    public bool dead = false;
 
     private void Start()
     {
@@ -36,6 +42,12 @@ public class Health : NetworkBehaviour
             health -= value;
             healthbar.TakeDamage(health / maxHealth);
             healthbar.DisplayDamage(value);
+
+            if (health <= 0 && !dead)
+            {
+                dead = true;
+                DeathEvent.Invoke();
+            }
         }
     }
 

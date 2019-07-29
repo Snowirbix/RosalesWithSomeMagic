@@ -36,7 +36,7 @@ public class ProjectileAttackBehaviour : NetworkBehaviour
         // if we are on the server
         if (NetworkServer.active)
         {
-            if (collider.gameObject != attackOwner)
+            if (collider.gameObject != attackOwner && !collider.isTrigger)
             {
                 projectileAttack.Hit(this.id, collider.gameObject);
             }

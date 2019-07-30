@@ -26,6 +26,8 @@ public class Pathfinder : MonoBehaviour
     
     protected CharacterController controller;
 
+    public Transform rotator;
+
     private void Start ()
     {
         path = new NavMeshPath();
@@ -67,11 +69,18 @@ public class Pathfinder : MonoBehaviour
                     // if there are still waypoints to go
                     if (path.corners.Length > currentWaypoint)
                     {
-                        controller.Move((path.corners[currentWaypoint] - transform.position).normalized * speed * Time.deltaTime);
+                        Vector3 direction = (path.corners[currentWaypoint] - transform.position).normalized;
+                        controller.Move(direction * speed * Time.deltaTime);
+                        Rotate(direction);
                     }
                 }
             }
         }
+    }
+    
+    protected void Rotate (Vector3 direction)
+    {
+        rotator.rotation = Quaternion.AngleAxis(Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg, Vector3.up);
     }
     
     protected bool CalculatePath ()

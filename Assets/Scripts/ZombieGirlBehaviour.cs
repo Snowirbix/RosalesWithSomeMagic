@@ -2,9 +2,11 @@
 using UnityEngine.Networking;
 
 [RequireComponent(typeof(Pathfinder))]
-public class ZombieGirlBehaviour : MonoBehaviour
+public class ZombieGirlBehaviour : NetworkBehaviour
 {
     public float range;
+
+    public int damage = 30;
 
     protected Animator animator;
 
@@ -15,6 +17,9 @@ public class ZombieGirlBehaviour : MonoBehaviour
     protected CharacterController characterController;
 
     public Canvas healthBar;
+
+    [ReadOnly]
+    public Transform target;
 
     private void Start ()
     {
@@ -41,6 +46,7 @@ public class ZombieGirlBehaviour : MonoBehaviour
             if (direction.sqrMagnitude < range * range)
             {
                 animator.SetBool("attack", true);
+                target = collider.transform;
             }
             else
             {
@@ -50,7 +56,23 @@ public class ZombieGirlBehaviour : MonoBehaviour
         }
     }
 
+    public void Damage ()
+    {
+        Vector3 direction = target.position - transform.position;
+
+        if (direction.sqrMagnitude < range * range)
+        {
+            target.GetComponent<Health>()?.TakeDamage(damage);
+        }
+    }
+
     public void Death()
+    {
+        RpcDeath();
+    }
+
+    [ClientRpc]
+    public void RpcDeath ()
     {
         pathfinder.enabled = false;
         characterController.enabled = false;

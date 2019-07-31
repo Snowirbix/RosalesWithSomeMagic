@@ -29,33 +29,76 @@ public class ZombieGirlBehaviour : NetworkBehaviour
         characterController = GetComponent<CharacterController>();
     }
 
+    private void Update ()
+    {
+        foreach (PlayerController player in PlayerController.players)
+        {
+            //
+        }
+    }
+
     private void OnTriggerEnter (Collider collider)
     {
-        if (collider.tag == "Player")
+        if (isServer)
         {
-            pathfinder.SetTarget(collider.transform);
+            if (collider.tag == "Player")
+            {
+                pathfinder.SetTarget(collider.transform);
+            }
         }
     }
 
     private void OnTriggerStay (Collider collider)
     {
-        if (collider.tag == "Player")
+        if (isServer)
         {
-            Vector3 direction = collider.transform.position - transform.position;
+            if (collider.tag == "Player")
+            {
+                Vector3 direction = collider.transform.position - transform.position;
 
-            if (direction.sqrMagnitude < range * range)
-            {
-                animator.SetBool("attack", true);
-                target = collider.transform;
+                if (direction.sqrMagnitude < range * range)
+                {
+                    if (!animator.GetBool("attack"))
+                    {
+                        RpcStartAttack();
+                        target = collider.transform;
+                    }
+                }
+                else
+                {
+                    if (animator.GetBool("attack"))
+                    {
+                        RpcStopAttack();
+                    }
+                }
             }
-            else
+        }
+    }
+    private void OnTriggerExit (Collider collider)
+    {
+        if (isServer)
+        {
+            if (collider.tag == "Player")
             {
-                animator.SetBool("attack", false);
-                animator.SetFloat("speed", 1.0f);
+                pathfinder.UnsetTarget(collider.transform);
             }
         }
     }
 
+
+    [ClientRpc]
+    protected void RpcStartAttack ()
+    {
+        animator.SetBool("attack", true);
+    }
+
+    [ClientRpc]
+    protected void RpcStopAttack ()
+    {
+        animator.SetBool("attack", false);
+    }
+
+    // Called by AnimationEvent
     public void Damage ()
     {
         Vector3 direction = target.position - transform.position;

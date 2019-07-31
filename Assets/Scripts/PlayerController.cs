@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Networking;
 
 [RequireComponent(typeof(CharacterController))]
@@ -32,6 +34,8 @@ public class PlayerController : NetworkBehaviour
 
     #endregion components
 
+    public static List<PlayerController> players = new List<PlayerController>();
+
     private void Start ()
     {
         charController = GetComponent<CharacterController>();
@@ -42,6 +46,13 @@ public class PlayerController : NetworkBehaviour
         {
             throw new UnassignedReferenceException();
         }
+
+        players.Add(this);
+    }
+
+    private void OnDestroy ()
+    {
+        players.Remove(this);
     }
 
     private void Update ()

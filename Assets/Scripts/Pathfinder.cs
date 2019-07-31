@@ -8,9 +8,25 @@ public class Pathfinder : NetworkBehaviour
 {
     public float speed = 3f;
 
+    [SerializeField][ReadOnly]
+    protected float _speedBoost;
+    public float speedBoost
+    {
+        get
+        {
+            return _speedBoost;
+        }
+        set
+        {
+            _speedBoost = value;
+            animator.SetFloat("speed", value);
+        }
+    }
+
     protected NavMeshPath path;
 
-    protected Transform target;
+    [ReadOnly]
+    public Transform target;
 
     protected Vector3 lastTargetPosition;
 
@@ -60,7 +76,7 @@ public class Pathfinder : NetworkBehaviour
         path = new NavMeshPath();
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
-        animator.SetFloat("speed", 1.0f);
+        speedBoost = 1f;
         mode = Mode.PATROL;
     }
 
@@ -69,6 +85,7 @@ public class Pathfinder : NetworkBehaviour
         if (isServer)
         {
             this.target = target;
+            speedBoost = 1.5f;
             this.CalculatePath();
             mode = Mode.TARGET;
         }
@@ -79,6 +96,7 @@ public class Pathfinder : NetworkBehaviour
         if (isServer)
         {
             this.target = null;
+            speedBoost = 1f;
             Vector3 dest = pathCreator.path.GetClosestPointOnPath(transform.position);
             dstTravelled = pathCreator.path.GetClosestDistanceAlongPath(transform.position);
             CalculatePath(dest);
@@ -134,27 +152,27 @@ public class Pathfinder : NetworkBehaviour
                     }
                 }
 
-                controller.Move(direction * speed * Time.deltaTime);
+                controller.Move(direction * speed * speedBoost * Time.deltaTime);
                 Rotate(lookDirection);
             }
             if (mode == Mode.PATROL)
             {
                 dstTravelled += speed * Time.deltaTime;
                 transform.position = pathCreator.path.GetPointAtDistance(dstTravelled, endOfPath);
-                rotator.rotation = pathCreator.path.GetRotationAtDistance(dstTravelled, endOfPath);
+                rotator.rotation = Quaternion.Lerp(rotator.rotation, pathCreator.path.GetRotationAtDistance(dstTravelled, endOfPath), Time.deltaTime * 5f);
             }
         }
         else
         {
             // client
-            //controller.Move(direction * speed * Time.deltaTime);
+            //controller.Move(direction * speed * speedBoost * Time.deltaTime);
             //Rotate(lookDirection);
         }
     }
     
     protected void Rotate (Vector3 direction)
     {
-        rotator.rotation = Quaternion.AngleAxis(Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg, Vector3.up);
+        rotator.rotation = Quaternion.Lerp(rotator.rotation, Quaternion.AngleAxis(Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg, Vector3.up), Time.deltaTime * 5f);
     }
     
     protected bool CalculatePath ()

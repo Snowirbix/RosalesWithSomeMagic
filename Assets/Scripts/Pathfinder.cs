@@ -6,7 +6,7 @@ using PathCreation;
 [RequireComponent(typeof(CharacterController))]
 public class Pathfinder : NetworkBehaviour
 {
-    public float speed = 3f;
+    public float speed = 2f;
 
     [SerializeField][ReadOnly]
     protected float _speedBoost;
@@ -19,7 +19,7 @@ public class Pathfinder : NetworkBehaviour
         set
         {
             _speedBoost = value;
-            animator.SetFloat("speed", value);
+            animator.SetFloat("speed", value * speed);
         }
     }
 

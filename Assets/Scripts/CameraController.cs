@@ -1,19 +1,16 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-public class CameraController : NetworkBehaviour
+public class CameraController : MonoBehaviour
 {
-    private void Start ()
+    private void Awake ()
     {
-        if (isLocalPlayer)
+        GameObject cam = GameObject.Find("vCam");
+        if (cam)
         {
-            GameObject cam = GameObject.Find("vCam");
-            if (cam)
-            {
-                Cinemachine.CinemachineVirtualCamera vCam = cam.GetComponent<Cinemachine.CinemachineVirtualCamera>();
-                vCam.Follow = transform;
-                vCam.LookAt = transform;
-            }
+            Cinemachine.CinemachineVirtualCamera vCam = cam.GetComponent<Cinemachine.CinemachineVirtualCamera>();
+            vCam.Follow = transform;
+            vCam.LookAt = transform;
         }
     }
 }

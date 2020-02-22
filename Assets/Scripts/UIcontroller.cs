@@ -4,16 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
-public class UIcontroller : NetworkBehaviour
+public class UIcontroller : MonoBehaviour
 {
 
     public SpellManager spellManager;
 
-    public Health healthScript;
+    public RectTransform healthbar;
 
-    public RectTransform life;
-
-    public Text lifeText;
+    public Text healthText;
 
     public Image cooldownLeftImage;
 
@@ -22,34 +20,25 @@ public class UIcontroller : NetworkBehaviour
     public Image leftClickSpell;
 
     public Canvas uI;
-    private float health;
-    private float maxHealth;
 
-    private float maxwidth;
+    private float maxWidth;
 
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        if (!isLocalPlayer)
-        {
-            uI.enabled = false;
-        }
-        //Set spell image here and life
+        // Set spell image here and life
         leftClickSpell.sprite = spellManager.attackDataLeftClick.image;
-        maxHealth = healthScript.maxHealth;
-        health = maxHealth;
-        lifeText.text = health.ToString() + "/" + maxHealth.ToString();
-        maxwidth = life.rect.width;
+        maxWidth = healthbar.rect.width;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        Life();
         Cooldown();
     }
 
-    void Cooldown(){
+    protected void Cooldown()
+    {
         float cooldownLeft = spellManager.cdClickLeftUsed;
         if(cooldownLeft > 0)
         {
@@ -70,14 +59,10 @@ public class UIcontroller : NetworkBehaviour
         }
     }
 
-    void Life(){
-        float healthNow = healthScript.health;
-        if(healthNow != health)
-        {
-            health = healthNow;
-            float healthRatio = health/maxHealth;
-            life.sizeDelta = new Vector2(healthRatio * maxwidth, life.sizeDelta.y);
-            lifeText.text = health.ToString() + "/" + maxHealth.ToString();
-        }
+    public void OnChangedHealth(int amount, int health, int maxHealth)
+    {
+        float healthRatio = (float)health/(float)maxHealth;
+        healthbar.sizeDelta = new Vector2(healthRatio * maxWidth, healthbar.sizeDelta.y);
+        healthText.text = health.ToString() + "/" + maxHealth.ToString();
     }
 }

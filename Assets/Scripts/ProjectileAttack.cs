@@ -121,7 +121,7 @@ public class ProjectileAttack : Attack
     {
         Health hp = target.GetComponent<Health>();
         Assert.IsNotNull(hp, $"target {target.name} has no Health component !");
-        hp.TakeDamage(data.damage);
+        hp.Damage(data.damage);
         
         RpcHit(id, target);
 

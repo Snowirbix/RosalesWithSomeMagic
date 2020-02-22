@@ -36,7 +36,7 @@ public class PlayerController : NetworkBehaviour
 
     public static List<PlayerController> players = new List<PlayerController>();
 
-    private void Start ()
+    private void Awake ()
     {
         charController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();

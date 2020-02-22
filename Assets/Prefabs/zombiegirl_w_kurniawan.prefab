@@ -1179,11 +1179,12 @@ GameObject:
   - component: {fileID: 7092220605288192266}
   - component: {fileID: 191112297}
   - component: {fileID: 1369465713624064649}
-  - component: {fileID: 7503795283711847338}
   - component: {fileID: 4772343152861351105}
+  - component: {fileID: 1176622627397862451}
   - component: {fileID: 1995403682}
   - component: {fileID: 1995403681}
   - component: {fileID: 6336502935426490201}
+  - component: {fileID: 5008477616508674609}
   m_Layer: 12
   m_Name: zombiegirl_w_kurniawan
   m_TagString: Untagged
@@ -1281,25 +1282,6 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &7503795283711847338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4232815241801156195}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b209aea79ac1d8f418088544dd7e61e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deltaTime: 0.2
-  canvas: {fileID: 1373579274247624499}
-  backgroundBar: {fileID: 1373579275178474791}
-  damageBar: {fileID: 1373579274949567852}
-  healthBar: {fileID: 1373579275159810049}
-  damageTextObject: {fileID: 2753409100683545460, guid: f39907eea0aa94d44932105647181bfd,
-    type: 3}
 --- !u!114 &4772343152861351105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1314,7 +1296,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   maxHealth: 100
-  DeathEvent:
+  healEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1729929635385826288}
+        m_MethodName: Heal
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  damageEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1729929635385826288}
+        m_MethodName: Damage
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1176622627397862451}
+        m_MethodName: DisplayDamage
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  deathEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 191112297}
@@ -1329,6 +1350,21 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   dead: 0
+--- !u!114 &1176622627397862451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4232815241801156195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40a57ac2c383cff489904b2dd37f951f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageTextPrefab: {fileID: 2753409100683545460, guid: f39907eea0aa94d44932105647181bfd,
+    type: 3}
+  canvas: {fileID: 1373579274247624499}
 --- !u!143 &1995403682
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1359,7 +1395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6811da3a4838b6b48a6f488802120f40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 0.1
   _speedBoost: 0
   target: {fileID: 0}
   staleTime: 1
@@ -1386,6 +1422,102 @@ MonoBehaviour:
   spellSpawnPoint: {fileID: 0}
   damageSpawnPoint: {fileID: 4908329620178092046}
   rightHand: {fileID: 5412632009196927862}
+--- !u!82 &5008477616508674609
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4232815241801156195}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 0.5
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 1
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &4558797679990137309
 GameObject:
   m_ObjectHideFlags: 0
@@ -2637,21 +2769,15 @@ Canvas:
     type: 3}
   m_PrefabInstance: {fileID: 5549143496262041613}
   m_PrefabAsset: {fileID: 0}
---- !u!224 &1373579275178474791 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6777191251650788650, guid: 4623312207130a8418826b2961edac7c,
+--- !u!114 &1729929635385826288 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6125868894105738237, guid: 4623312207130a8418826b2961edac7c,
     type: 3}
   m_PrefabInstance: {fileID: 5549143496262041613}
   m_PrefabAsset: {fileID: 0}
---- !u!224 &1373579274949567852 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6777191251565045089, guid: 4623312207130a8418826b2961edac7c,
-    type: 3}
-  m_PrefabInstance: {fileID: 5549143496262041613}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &1373579275159810049 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6777191251640021004, guid: 4623312207130a8418826b2961edac7c,
-    type: 3}
-  m_PrefabInstance: {fileID: 5549143496262041613}
-  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b209aea79ac1d8f418088544dd7e61e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

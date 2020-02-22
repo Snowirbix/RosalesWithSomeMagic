@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Networking;
 
+[RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Pathfinder))]
+[RequireComponent(typeof(Health))]
+[RequireComponent(typeof(CharacterController))]
 public class ZombieGirlBehaviour : NetworkBehaviour
 {
     public float range;
@@ -129,9 +133,12 @@ public class ZombieGirlBehaviour : NetworkBehaviour
         animator.SetBool("attack", false);
     }
 
-    // Called by AnimationEvent
-    public void Damage ()
+    // Called by AnimationEvent !!!
+    public void AnimationEventDamage ()
     {
+        if (healthScript.isDead)
+            return;
+
         foreach (PlayerController player in PlayerController.players)
         {
             Vector3 direction = (player.transform.position - transform.position);
@@ -139,7 +146,9 @@ public class ZombieGirlBehaviour : NetworkBehaviour
             // if player is in range and in front of the zombie
             if (direction.sqrMagnitude < range * range && Vector3.Angle(direction, rotator.forward) <= 80)
             {
-                player.GetComponent<Health>()?.TakeDamage(damage);
+                Health hp = player.GetComponent<Health>();
+                Assert.IsNotNull(hp, $"target {player.name} has no Health component !");
+                hp.Damage(damage);
             }
         }
     }

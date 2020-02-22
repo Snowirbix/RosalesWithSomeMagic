@@ -3,16 +3,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
-public class Healthbar : NetworkBehaviour
+public class Healthbar : MonoBehaviour
 {
     [Range(0f, 1f)]
     public float deltaTime = 0.2f;
 
-    public Transform canvas;
     public RectTransform backgroundBar;
     public RectTransform damageBar;
     public RectTransform healthBar;
-    public GameObject damageTextObject;
     protected float maxWidth;
     protected List<Change> changes = new List<Change>();
 
@@ -22,7 +20,7 @@ public class Healthbar : NetworkBehaviour
         public float time;
     }
 
-    private void Start()
+    private void Awake()
     {
         maxWidth = backgroundBar.rect.width;
     }
@@ -39,8 +37,9 @@ public class Healthbar : NetworkBehaviour
         }
     }
 
-    public void TakeDamage (float healthRatio)
+    public void Damage (int damageAmount, int health, int maxHealth)
     {
+        float healthRatio = (float)health / (float)maxHealth;
         healthBar.sizeDelta = new Vector2(healthRatio * maxWidth, healthBar.sizeDelta.y);
 
         // delayed update
@@ -50,29 +49,11 @@ public class Healthbar : NetworkBehaviour
         changes.Add(change);
     }
 
-    public void Heal (float healthRatio)
+    public void Heal (int healAmount, int health, int maxHealth)
     {
+        float healthRatio = (float)health / (float)maxHealth;
         healthBar.sizeDelta = new Vector2(healthRatio * maxWidth, healthBar.sizeDelta.y);
         // instant update
         damageBar.sizeDelta = new Vector2(healthRatio * maxWidth, damageBar.sizeDelta.y);
-    }
-
-    public void DisplayDamage (int healthLost)
-    {
-        if (isServer)
-        {
-            RpcDisplayDamage(healthLost);
-        }
-    }
-
-    [ClientRpc]
-    protected void RpcDisplayDamage (int healthLost)
-    {
-        GameObject dt = Instantiate(damageTextObject, canvas.transform.position , Quaternion.Euler(50, 0, 0), canvas.transform);
-        dt.transform.localPosition =  new Vector3(71, -305, 0.3f);
-        Text dtexte = dt.GetComponent<Text>();
-        dtexte.text = healthLost.ToString();
-        dtexte.color = Color.red;
-        dtexte.fontSize = (int)Mathf.Lerp(50, 150, healthLost / 1000); //healthLost >= 100 ? 50 + healthLost/10 : 50;
     }
 }

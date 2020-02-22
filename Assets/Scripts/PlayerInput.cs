@@ -9,12 +9,8 @@ public class PlayerInput : NetworkBehaviour
 
     protected SpellManager spellManager;
 
-    private void Start ()
+    private void Awake ()
     {
-        if (!isLocalPlayer)
-        {
-            enabled = false;
-        }
         playerController = GetComponent<PlayerController>();
         spellManager = GetComponent<SpellManager>();
     }

@@ -1,25 +1,36 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
 
 public class Health : NetworkBehaviour
 {
     [ReadOnly][SyncVar(hook = "OnChangedHealth")]
-    public float health = 0;
+    public int health = 0;
 
-    public float maxHealth = 100f;
+    public int maxHealth = 100;
 
-    protected Healthbar healthbar;
+    [System.Serializable]
+    public class HealEvent : UnityEvent<int, int, int> {};
 
-    public UnityEvent DeathEvent;
+    [System.Serializable]
+    public class DamageEvent  : UnityEvent<int, int, int> {};
+
+    /// <summary>
+    /// heal amount, health, max health
+    /// </summary>
+    public HealEvent    healEvent;
+    /// <summary>
+    /// damage amount, health, max health
+    /// </summary>
+    public DamageEvent  damageEvent;
+    public UnityEvent   deathEvent;
 
     [ReadOnly]
-    public bool dead = false;
+    public bool isDead = false;
 
     private void Start()
     {
-        healthbar = GetComponent<Healthbar>();
-
         if (isServer)
         {
             health = maxHealth;
@@ -31,42 +42,37 @@ public class Health : NetworkBehaviour
         if (isServer)
         {
             health += value;
-            healthbar.Heal(health / maxHealth);
+            healEvent.Invoke(value, health, maxHealth);
         }
     }
 
-    public void TakeDamage (int value)
+    public void Damage (int value)
     {
         if (isServer)
         {
             health -= value;
-            healthbar.TakeDamage(health / maxHealth);
-            healthbar.DisplayDamage(value);
+            health = Math.Max(health, 0);
+            damageEvent.Invoke(value, health, maxHealth);
 
-            if (health <= 0 && !dead)
+            if (health == 0 && !isDead)
             {
-                dead = true;
-                DeathEvent.Invoke();
+                isDead = true;
+                deathEvent.Invoke();
             }
         }
     }
 
-    protected void OnChangedHealth (float h)
+    protected void OnChangedHealth (int newHealth)
     {
         if (!isServer)
         {
-            // this hook can be called before Start
-            if (healthbar == null)
+            if (newHealth > health)
             {
-                healthbar = GetComponent<Healthbar>();
-            }
-            if (h < health)
-            {
-                healthbar.TakeDamage(h / maxHealth);
+                healEvent.Invoke(newHealth-health, newHealth, maxHealth);
             }
             else
             {
-                healthbar.Heal(h / maxHealth);
+                damageEvent.Invoke(newHealth-health, newHealth, maxHealth);
             }
         }
     }

@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections.Generic;
+using UnityEngine.Assertions;
 
 public class ProjectileAttack : Attack
 {
@@ -119,7 +120,8 @@ public class ProjectileAttack : Attack
     public void Hit (int id, GameObject target)
     {
         Health hp = target.GetComponent<Health>();
-            hp.TakeDamage(data.damage);
+        Assert.IsNotNull(hp, $"target {target.name} has no Health component !");
+        hp.TakeDamage(data.damage);
         
         RpcHit(id, target);
 

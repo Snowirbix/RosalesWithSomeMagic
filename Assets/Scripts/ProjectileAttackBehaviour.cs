@@ -9,6 +9,8 @@ public class ProjectileAttackBehaviour : NetworkBehaviour
 
     public float range;
 
+    public LayerMask enemiesLayerMask;
+
     protected Vector3 positionStart;
 
     protected GameObject attackOwner;
@@ -36,7 +38,7 @@ public class ProjectileAttackBehaviour : NetworkBehaviour
         // if we are on the server
         if (NetworkServer.active)
         {
-            if (collider.gameObject != attackOwner && !collider.isTrigger)
+            if (!collider.isTrigger && (collider.gameObject.layer.ToLayerMask() & enemiesLayerMask.value) != 0)
             {
                 projectileAttack.Hit(this.id, collider.gameObject);
             }

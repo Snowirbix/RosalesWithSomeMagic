@@ -884,6 +884,7 @@ GameObject:
   - component: {fileID: -7390121292300889077}
   - component: {fileID: 2188720187879727267}
   - component: {fileID: 2817241965912209770}
+  - component: {fileID: 8659343263565771868}
   m_Layer: 11
   m_Name: kachujin_g_rosales
   m_TagString: Player
@@ -1255,6 +1256,29 @@ MonoBehaviour:
   - {fileID: 939162102690976833}
   - {fileID: 2188720187879727267}
   - {fileID: 6363370118362414956}
+--- !u!114 &8659343263565771868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6363370117786527019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a090c541ce4004d44b2286f0177e861a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level: 1
+  xp: 0
+  xpForNextLevel: 0
+  tabXp: 0a000000190000002d00000046000000
+  levelMax: 0
+  levelUpEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  xpGainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &6363370117786527021
 GameObject:
   m_ObjectHideFlags: 0

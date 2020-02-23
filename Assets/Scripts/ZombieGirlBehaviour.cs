@@ -12,6 +12,8 @@ public class ZombieGirlBehaviour : NetworkBehaviour
 
     public int damage = 30;
 
+    public int xp = 10;
+
     protected Animator animator;
 
     protected Pathfinder pathfinder;
@@ -155,6 +157,7 @@ public class ZombieGirlBehaviour : NetworkBehaviour
 
     public void Death()
     {
+        GiveXp();
         RpcDeath();
     }
 
@@ -165,5 +168,15 @@ public class ZombieGirlBehaviour : NetworkBehaviour
         characterController.enabled = false;
         healthBar.enabled = false;
         animator.SetTrigger("dead");
+    }
+
+    public void GiveXp()
+    {
+        foreach(PlayerController player in PlayerController.players)
+        {
+            Levels lv = player.GetComponent<Levels>();
+            Assert.IsNotNull(lv, $"target {player.name} has no Level component !");
+            lv.XpGained(xp);
+        }
     }
 }

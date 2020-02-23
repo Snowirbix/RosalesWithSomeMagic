@@ -194,7 +194,7 @@ public class ProjectileAttack : Attack
             Instantiate(data.spellHitFx, targetSkel.damageSpawnPoint.position, targetSkel.damageSpawnPoint.rotation, targetSkel.damageSpawnPoint.transform);
         }
         
-        Assert.IsNotNull(instances[id]);
+        Assert.IsNotNull(instances[id], $"trying to destroy null projectile {id}");
         if (instances[id] != null)
         {
             Destroy(instances[id]);

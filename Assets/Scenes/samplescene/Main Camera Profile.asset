@@ -336,8 +336,8 @@ MonoBehaviour:
     min: 0.25
     max: 5
   temporalAccumulation:
-    m_OverrideState: 0
-    m_Value: 1
+    m_OverrideState: 1
+    m_Value: 0
   ghostingReduction:
     m_OverrideState: 0
     m_Value: 0.5

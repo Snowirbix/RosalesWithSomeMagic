@@ -974,7 +974,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveDirection: {x: 0, y: 0}
   lookDirection: {x: 0, y: 0}
-  speed: 5
+  speed: 6
   rotator: {fileID: 6363370117942861870}
   castingSpell: 0
 --- !u!114 &6363370118362414944

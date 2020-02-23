@@ -108,10 +108,13 @@ public class PlayerController : NetworkBehaviour
 
             float angle = lookAngle - moveAngle;
 
-            Vector3 dir3 = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.up) * Vector3.right * magnitude;
+            //Vector3 dir3 = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.up) * Vector3.right * magnitude;
 
-            x = dir3.z;
-            y = dir3.x;
+            y = Mathf.Cos(angle) * magnitude * speed * state.speed;
+            x =-Mathf.Sin(angle) * magnitude * speed * state.speed;
+
+            //x = dir3.z;
+            //y = dir3.x;
         }
 
         animator.SetFloat("x", x);

@@ -156,6 +156,14 @@ public class State : NetworkBehaviour
 
         if (isServer)
         {
+            if (tag != "Player")
+            {
+                // handle mob speed here
+                if (data.speed != speed)
+                {
+                    speed = data.speed;
+                }
+            }
             // put data var in sync vars
             if (data.outputDamage != outputDamage)
             {

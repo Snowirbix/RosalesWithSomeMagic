@@ -31,4 +31,8 @@ public class ProjectileAttackData : AttackData
     public GameObject fireSpellFX;
 
     public GameObject spellHitFx;
+
+    public LayerMask enemiesLayerMask;
+
+    public LayerMask playerLayerMask;
 }

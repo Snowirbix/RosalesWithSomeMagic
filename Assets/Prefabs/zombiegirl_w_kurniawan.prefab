@@ -1185,6 +1185,7 @@ GameObject:
   - component: {fileID: 1995403681}
   - component: {fileID: 6336502935426490201}
   - component: {fileID: 5008477616508674609}
+  - component: {fileID: 890313618929292204}
   m_Layer: 12
   m_Name: zombiegirl_w_kurniawan
   m_TagString: Untagged
@@ -1349,7 +1350,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  dead: 0
+  isDead: 0
 --- !u!114 &1176622627397862451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1395,7 +1396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6811da3a4838b6b48a6f488802120f40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.1
+  speed: 1
   _speedBoost: 0
   target: {fileID: 0}
   staleTime: 1
@@ -1518,6 +1519,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &890313618929292204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4232815241801156195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 482ec82a684d75e499e4a52e0c4085c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  silence: 0
+  root: 0
+  invisible: 0
+  invincible: 0
+  outputDamage: 1
+  inputDamage: 1
+  healing: 1
+  speed: 1
 --- !u!1 &4558797679990137309
 GameObject:
   m_ObjectHideFlags: 0

@@ -938,13 +938,13 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 2
+  m_Height: 1.95
   m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1.01, z: 0}
+  m_Center: {x: 0, y: 1.05, z: 0}
 --- !u!114 &6363370118362414956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1074,7 +1074,7 @@ MonoBehaviour:
   deathEvent:
     m_PersistentCalls:
       m_Calls: []
-  dead: 0
+  isDead: 0
 --- !u!114 &4958012016601855436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1192,7 +1192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5df4c564720ae346b1917eea3e6d5f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 0}
+  data: {fileID: 11400000, guid: ee7414fb66c33d44d9e1233b22c3a540, type: 2}
 --- !u!114 &6447127991809128059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1205,7 +1205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7150fdf4f493df4cb2b1539e052f3fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 0}
+  data: {fileID: 11400000, guid: ee5d03437dfbf9f47b215fe5ef19c13b, type: 2}
 --- !u!114 &-7390121292300889077
 MonoBehaviour:
   m_ObjectHideFlags: 0

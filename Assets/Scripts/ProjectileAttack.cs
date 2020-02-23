@@ -24,6 +24,7 @@ public class ProjectileAttack : Attack
 
     protected int currentId;
     
+    [Obsolete("instances never removed = memory leak")]
     protected Dictionary<int, GameObject> instances = new Dictionary<int, GameObject>();
 
 
@@ -119,13 +120,47 @@ public class ProjectileAttack : Attack
 
     public void Hit (int id, GameObject target)
     {
-        Health hp = target.GetComponent<Health>();
-        Assert.IsNotNull(hp, $"target {target.name} has no Health component !");
-        hp.Damage(data.damage);
-        
+        // don't hit yourself, kid
+        if (target == gameObject)
+            return;
+
         RpcHit(id, target);
 
-        //TargetHit(target.GetComponent<NetworkIdentity>().connectionToClient, target);
+        if ((target.layer.ToLayerMask() & (data.enemiesLayerMask | data.playerLayerMask)) != 0)
+        {
+            Health hp = target.GetComponent<Health>();
+            Assert.IsNotNull(hp, $"target {target.name} has no Health component !");
+            hp.Damage(data.damage);
+        }
+
+        if ((target.layer.ToLayerMask() & data.enemiesLayerMask) != 0)
+        {
+            // apply slow on master
+            CmdHit(target);
+        }
+        if ((target.layer.ToLayerMask() & data.playerLayerMask) != 0)
+        {
+            // RPC player machine to apply slow
+            TargetHit(target.GetComponent<NetworkIdentity>().connectionToClient, target);
+        }
+    }
+
+    
+    [Command]
+    protected void CmdHit(GameObject goTarget)
+    {
+        State state = goTarget.GetComponent<State>();
+        Assert.IsNotNull(state, $"target {goTarget.name} has no State component !");
+
+        State.TempModifier modifier = new State.TempModifier(1f);
+
+        State.ModifierUpdate update = (State.Data d) => {
+            d.speed -= data.slowCurve.Evaluate(1f-modifier.time);
+        };
+
+        modifier.SetDelegate(update);
+
+        state.AddModifier(modifier);
     }
 
     // executes on target machine
@@ -134,6 +169,7 @@ public class ProjectileAttack : Attack
     protected void TargetHit (NetworkConnection target, GameObject goTarget)
     {
         State state = goTarget.GetComponent<State>();
+        Assert.IsNotNull(state, $"target {goTarget.name} has no State component !");
 
         State.TempModifier modifier = new State.TempModifier(1f);
 
@@ -149,10 +185,16 @@ public class ProjectileAttack : Attack
     [ClientRpc(channel = Channels.DefaultUnreliable)]
     protected void RpcHit (int id, GameObject target)
     {
-        // VFX
-        Skeleton targetSkel = target.GetComponent<Skeleton>();
-        Instantiate(data.spellHitFx, targetSkel.damageSpawnPoint.position, targetSkel.damageSpawnPoint.rotation, targetSkel.damageSpawnPoint.transform);
-
+        if (target)
+        {
+            // VFX
+            // Todo : Refactor
+            Skeleton targetSkel = target.GetComponent<Skeleton>();
+            Assert.IsNotNull(targetSkel, $"target {target.name} has no Skeleton component !");
+            Instantiate(data.spellHitFx, targetSkel.damageSpawnPoint.position, targetSkel.damageSpawnPoint.rotation, targetSkel.damageSpawnPoint.transform);
+        }
+        
+        Assert.IsNotNull(instances[id]);
         if (instances[id] != null)
         {
             Destroy(instances[id]);

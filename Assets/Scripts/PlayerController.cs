@@ -83,7 +83,7 @@ public class PlayerController : NetworkBehaviour
     {
         if (!state.root)
         {
-            Vector3 dir3 = new Vector3(moveDirection.x, 0, moveDirection.y);
+            Vector3 dir3 = new Vector3(moveDirection.x, -0.4f, moveDirection.y); // half second to move down to the ground
             charController.Move(dir3 * speed * Time.deltaTime * state.speed);
         }
     }

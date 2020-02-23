@@ -41,12 +41,14 @@ VisualEffect:
   m_GameObject: {fileID: 4717398040764963464}
   m_Enabled: 1
   m_Asset: {fileID: 8926484042661614526, guid: ad3422c588058f2469a08a384e8896a5, type: 3}
+  m_InitialEventName: OnPlay
+  m_InitialEventNameOverriden: 0
   m_StartSeed: 0
   m_ResetSeedOnPlay: 1
   m_PropertySheet:
     m_Float:
       m_Array:
-      - m_Value: 3
+      - m_Value: 6
         m_Name: Size
         m_Overridden: 1
       - m_Value: 0.2
@@ -92,6 +94,7 @@ VFXRenderer:
   m_MotionVectors: 0
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -103,6 +106,7 @@ VFXRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

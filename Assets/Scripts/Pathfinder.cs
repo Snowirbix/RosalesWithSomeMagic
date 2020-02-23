@@ -4,6 +4,8 @@ using UnityEngine.Networking;
 using PathCreation;
 
 [RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(State))]
 public class Pathfinder : NetworkBehaviour
 {
     public float speed = 2f;
@@ -24,6 +26,8 @@ public class Pathfinder : NetworkBehaviour
     }
 
     protected NavMeshPath path;
+    
+    protected State state;
 
     [ReadOnly]
     public Transform target;
@@ -71,11 +75,12 @@ public class Pathfinder : NetworkBehaviour
         PATROL
     }
 
-    private void Start ()
+    private void Awake ()
     {
         path = new NavMeshPath();
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        state = GetComponent<State>();
         speedBoost = 1f;
         mode = Mode.PATROL;
     }
@@ -152,12 +157,12 @@ public class Pathfinder : NetworkBehaviour
                     }
                 }
 
-                controller.Move(direction * speed * speedBoost * Time.deltaTime);
+                controller.Move(direction * speed * speedBoost * state.speed * Time.deltaTime);
                 Rotate(lookDirection);
             }
             if (mode == Mode.PATROL)
             {
-                dstTravelled += speed * Time.deltaTime;
+                dstTravelled += speed * speedBoost * state.speed * Time.deltaTime;
                 transform.position = pathCreator.path.GetPointAtDistance(dstTravelled, endOfPath);
                 rotator.rotation = Quaternion.Lerp(rotator.rotation, pathCreator.path.GetRotationAtDistance(dstTravelled, endOfPath), Time.deltaTime * 5f);
             }

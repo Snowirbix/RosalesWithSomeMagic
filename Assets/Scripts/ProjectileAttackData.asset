@@ -16,7 +16,7 @@ MonoBehaviour:
   animationAttackTime: 0.6
   image: {fileID: 21300000, guid: 78ceb3cc597ff6747a07e21619c2d182, type: 3}
   range: 10
-  speed: 13
+  speed: 16
   damage: 10
   castingTime: 0.3
   slowCurve:
@@ -53,3 +53,9 @@ MonoBehaviour:
     type: 3}
   spellHitFx: {fileID: 4717398040764963464, guid: 9c47800488e55b044bfac2c00c3716e1,
     type: 3}
+  enemiesLayerMask:
+    serializedVersion: 2
+    m_Bits: 4096
+  playerLayerMask:
+    serializedVersion: 2
+    m_Bits: 2048

@@ -38,7 +38,7 @@ public class ProjectileAttackBehaviour : NetworkBehaviour
         // if we are on the server
         if (NetworkServer.active)
         {
-            if (!collider.isTrigger && (collider.gameObject.layer.ToLayerMask() & enemiesLayerMask.value) != 0)
+            if (!collider.isTrigger)
             {
                 projectileAttack.Hit(this.id, collider.gameObject);
             }

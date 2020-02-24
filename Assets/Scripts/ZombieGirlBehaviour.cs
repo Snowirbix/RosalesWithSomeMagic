@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Networking;
+using Mirror;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Pathfinder))]
@@ -176,6 +176,7 @@ public class ZombieGirlBehaviour : NetworkBehaviour
         {
             Levels lv = player.GetComponent<Levels>();
             Assert.IsNotNull(lv, $"target {player.name} has no Level component !");
+            // todo : all players receive 100% xp of all mobs ?
             lv.XpGained(xp);
         }
     }

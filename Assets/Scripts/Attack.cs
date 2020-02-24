@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 public abstract class Attack : NetworkBehaviour
 {

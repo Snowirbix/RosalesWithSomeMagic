@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Networking;
+using Mirror;
 using UnityEngine.Assertions;
 
 public class Levels : NetworkBehaviour
@@ -14,7 +14,7 @@ public class Levels : NetworkBehaviour
     public int xp = 0;
     public int xpForNextLevel;
 
-    public int[] tabXp = {10,25,45,70};
+    public int[] tabXp;
 
     public int levelMax;
     
@@ -76,13 +76,13 @@ public class Levels : NetworkBehaviour
         }
         levelUpEvent.Invoke(level,levelMax);
     }
-    protected void OnLevelUp(int newLevel)
+    protected void OnLevelUp(int oldValue, int newValue)
     {
-        levelUpEvent.Invoke(newLevel,levelMax);
+        levelUpEvent.Invoke(newValue, levelMax);
     }
 
-    protected void OnXpGained(int xp)
+    protected void OnXpGained(int oldValue, int newValue)
     {
-
+        //
     }
 }

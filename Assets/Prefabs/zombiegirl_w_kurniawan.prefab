@@ -1178,7 +1178,6 @@ GameObject:
   - component: {fileID: 929609395270857840}
   - component: {fileID: 7092220605288192266}
   - component: {fileID: 191112297}
-  - component: {fileID: 1369465713624064649}
   - component: {fileID: 4772343152861351105}
   - component: {fileID: 1176622627397862451}
   - component: {fileID: 1995403682}
@@ -1186,6 +1185,7 @@ GameObject:
   - component: {fileID: 6336502935426490201}
   - component: {fileID: 5008477616508674609}
   - component: {fileID: 890313618929292204}
+  - component: {fileID: 6103434046393207411}
   m_Layer: 12
   m_Name: zombiegirl_w_kurniawan
   m_TagString: Untagged
@@ -1240,9 +1240,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22cd62a626873fa4f82959d822c00153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   range: 2
   damage: 30
-  xp: 10
+  xp: 99
   healthBar: {fileID: 1373579274247624524}
   target: {fileID: 0}
   sightDistance: 14
@@ -1251,39 +1253,6 @@ MonoBehaviour:
   detectionLayerMask:
     serializedVersion: 2
     m_Bits: 3072
---- !u!114 &1369465713624064649
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4232815241801156195}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8258ea15b8f74c4889ce485d21cbbb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 0
-    i1: 0
-    i2: 0
-    i3: 0
-    i4: 0
-    i5: 0
-    i6: 0
-    i7: 0
-    i8: 0
-    i9: 0
-    i10: 0
-    i11: 0
-    i12: 0
-    i13: 0
-    i14: 0
-    i15: 0
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &4772343152861351105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1296,6 +1265,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38bf275436eb4464091866bdedb0186a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   health: 0
   maxHealth: 100
   healEvent:
@@ -1364,6 +1335,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40a57ac2c383cff489904b2dd37f951f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   damageTextPrefab: {fileID: 2753409100683545460, guid: f39907eea0aa94d44932105647181bfd,
     type: 3}
   canvas: {fileID: 1373579274247624499}
@@ -1397,6 +1370,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6811da3a4838b6b48a6f488802120f40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   speed: 1
   _speedBoost: 0
   target: {fileID: 0}
@@ -1532,6 +1507,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 482ec82a684d75e499e4a52e0c4085c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   silence: 0
   root: 0
   invisible: 0
@@ -1540,6 +1517,21 @@ MonoBehaviour:
   inputDamage: 1
   healing: 1
   speed: 1
+--- !u!114 &6103434046393207411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4232815241801156195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  m_AssetId: 
 --- !u!1 &4558797679990137309
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Networking;
+using Mirror;
 
 public class Health : NetworkBehaviour
 {
@@ -62,17 +62,17 @@ public class Health : NetworkBehaviour
         }
     }
 
-    protected void OnChangedHealth (int newHealth)
+    protected void OnChangedHealth (int oldValue, int newValue)
     {
         if (!isServer)
         {
-            if (newHealth > health)
+            if (newValue > health)
             {
-                healEvent.Invoke(newHealth-health, newHealth, maxHealth);
+                healEvent.Invoke(newValue-oldValue, newValue, maxHealth);
             }
             else
             {
-                damageEvent.Invoke(newHealth-health, newHealth, maxHealth);
+                damageEvent.Invoke(newValue-oldValue, newValue, maxHealth);
             }
         }
     }

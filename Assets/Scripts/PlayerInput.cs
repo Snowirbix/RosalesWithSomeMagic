@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 [RequireComponent(typeof(PlayerController))]
 public class PlayerInput : NetworkBehaviour

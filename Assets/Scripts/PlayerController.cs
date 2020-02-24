@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Animator))]
@@ -108,13 +108,8 @@ public class PlayerController : NetworkBehaviour
 
             float angle = lookAngle - moveAngle;
 
-            //Vector3 dir3 = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.up) * Vector3.right * magnitude;
-
             y = Mathf.Cos(angle) * magnitude * speed * state.speed;
             x =-Mathf.Sin(angle) * magnitude * speed * state.speed;
-
-            //x = dir3.z;
-            //y = dir3.x;
         }
 
         animator.SetFloat("x", x);
@@ -123,8 +118,13 @@ public class PlayerController : NetworkBehaviour
 
     public void SetAnimationAttackTime (float animationAttackTime)
     {
-        castingSpell = true;
-        this.animationAttackTime = animationAttackTime;
+        if (animationAttackTime > 0f)
+        {
+            // rotate one last time before locking
+            Rotate();
+            castingSpell = true;
+            this.animationAttackTime = animationAttackTime;
+        }
     }
 
     public void SetMoveDirection (Vector3 direction)

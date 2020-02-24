@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 using System.Collections.Generic;
 using UnityEngine.Assertions;
 
@@ -136,7 +136,7 @@ public class ProjectileAttack : Attack
         if ((target.layer.ToLayerMask() & data.enemiesLayerMask) != 0)
         {
             // apply slow on master
-            CmdHit(target);
+            ServerHit(target);
         }
         if ((target.layer.ToLayerMask() & data.playerLayerMask) != 0)
         {
@@ -145,9 +145,8 @@ public class ProjectileAttack : Attack
         }
     }
 
-    
-    [Command]
-    protected void CmdHit(GameObject goTarget)
+    // no command cause we are already on server
+    protected void ServerHit(GameObject goTarget)
     {
         State state = goTarget.GetComponent<State>();
         Assert.IsNotNull(state, $"target {goTarget.name} has no State component !");

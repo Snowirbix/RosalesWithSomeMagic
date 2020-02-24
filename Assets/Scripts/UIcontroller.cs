@@ -21,6 +21,9 @@ public class UIcontroller : MonoBehaviour
 
     public Canvas uI;
 
+    public Image xpBar;
+    public Text lvl;
+
     private float maxWidth;
 
     // Start is called before the first frame update
@@ -64,5 +67,16 @@ public class UIcontroller : MonoBehaviour
         float healthRatio = (float)health/(float)maxHealth;
         healthbar.sizeDelta = new Vector2(healthRatio * maxWidth, healthbar.sizeDelta.y);
         healthText.text = health.ToString() + "/" + maxHealth.ToString();
+    }
+
+    public void OnXpGained(int xpGained, int xp, int xpForNextLevel)
+    {
+        float xpRatio = (float) xp / (float) xpForNextLevel;
+        xpBar.fillAmount = Mathf.Min(xpRatio,1f);
+    }
+
+    public void OnLevelUp(int newLevel, int levelMax)
+    {
+        lvl.text = newLevel.ToString();
     }
 }

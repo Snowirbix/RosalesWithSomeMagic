@@ -1242,6 +1242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 2
   damage: 30
+  xp: 10
   healthBar: {fileID: 1373579274247624524}
   target: {fileID: 0}
   sightDistance: 14

@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Mirror;
 using UnityEngine.UI;
 
-public class DamageBubble : NetworkBehaviour
+public class DamageTextManager : NetworkBehaviour
 {
     public GameObject damageTextPrefab;
     

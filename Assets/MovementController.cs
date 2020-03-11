@@ -1,29 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Mirror;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(State))]
-public class PlayerController : NetworkBehaviour
+public class MovementController : MonoBehaviour
 {
-    [SyncVar][ReadOnly]
+    [ReadOnly]
     public Vector2 moveDirection = Vector2.zero;
     
-    [SyncVar][ReadOnly]
+    [ReadOnly]
     public Vector2 lookDirection = Vector2.zero;
 
     [Range(0.1f, 10f)]
     public float speed = 1f;
 
     public Transform rotator;
-
-    [ReadOnly]
-    public bool castingSpell = false;
-
-    protected float animationAttackTime;
-
 
     #region components
 
@@ -35,8 +26,6 @@ public class PlayerController : NetworkBehaviour
 
     #endregion components
 
-    public static List<PlayerController> players = new List<PlayerController>();
-
     private void Awake ()
     {
         charController = GetComponent<CharacterController>();
@@ -47,37 +36,13 @@ public class PlayerController : NetworkBehaviour
         {
             throw new UnassignedReferenceException();
         }
-
-        players.Add(this);
-    }
-
-    private void OnDestroy ()
-    {
-        players.Remove(this);
     }
 
     private void Update ()
     {
-        if (!castingSpell)
-        {
-            if (isLocalPlayer)
-            {
-                Move();
-                Rotate();
-            }
-
-            Animate();
-        }
-        else
-        {
-            animationAttackTime -= Time.deltaTime;
-
-            if(animationAttackTime <= 0)
-            {
-                castingSpell = false;
-            }
-        }
-
+        Move();
+        Rotate();
+        Animate();
     }
 
     protected void Move ()
@@ -93,7 +58,7 @@ public class PlayerController : NetworkBehaviour
     {
         rotator.rotation = Quaternion.AngleAxis(Mathf.Atan2(lookDirection.x, lookDirection.y) * Mathf.Rad2Deg, Vector3.up);
     }
-
+    
     protected void Animate ()
     {
         float x = 0f;
@@ -115,40 +80,5 @@ public class PlayerController : NetworkBehaviour
 
         animator.SetFloat("x", x);
         animator.SetFloat("y", y);
-    }
-
-    public void SetAnimationAttackTime (float animationAttackTime)
-    {
-        if (animationAttackTime > 0f)
-        {
-            // rotate one last time before locking
-            Rotate();
-            castingSpell = true;
-            this.animationAttackTime = animationAttackTime;
-        }
-    }
-
-    public void SetMoveDirection (Vector3 direction)
-    {
-        this.moveDirection = direction * state.speed;
-        this.CmdSetMoveDirection(direction * state.speed);
-    }
-
-    public void SetLookDirection (Vector3 direction)
-    {
-        this.lookDirection = direction;
-        this.CmdSetLookDirection(direction);
-    }
-
-    [Command(channel = Channels.DefaultUnreliable)]
-    public void CmdSetMoveDirection (Vector3 direction)
-    {
-        this.moveDirection = direction;
-    }
-
-    [Command(channel = Channels.DefaultUnreliable)]
-    public void CmdSetLookDirection (Vector3 direction)
-    {
-        this.lookDirection = direction;
     }
 }

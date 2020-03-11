@@ -3,11 +3,14 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using System;
+using Better.StreamingAssets;
+using System.Collections.Generic;
 
 public class BehaviorTreeEditor : EditorWindow
 {
     protected VisualTreeAsset visualTree;
     protected VisualElement uxmlElement;
+    protected BehaviorTreeConfiguration btConfig;
 
     [MenuItem("Window/UIElements/BehaviorTreeEditor")]
     public static void ShowExample()
@@ -18,6 +21,8 @@ public class BehaviorTreeEditor : EditorWindow
 
     public void OnEnable()
     {
+        BetterStreamingAssets.Initialize();
+
         // Each editor window contains a root VisualElement object
         VisualElement root = rootVisualElement;
 
@@ -30,15 +35,20 @@ public class BehaviorTreeEditor : EditorWindow
         var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Scripts/BehaviorTree/Editor/BehaviorTreeEditor.uss");
         root.styleSheets.Add(styleSheet);
 
+        BehaviorTreeConfiguration config = Configuration.DeserializeFromFile<BehaviorTreeConfiguration>("/BehaviorTreeEditor_clone.xml");
+
+        btConfig = new BehaviorTreeConfiguration();
+
         root.Q<Button>("CreateNode").RegisterCallback<MouseUpEvent>(x =>
         {
             NodeElement node = new NodeElement();
             root.Add(node);
+            btConfig.nodes.Add(new BehaviorTreeConfiguration.NodeConfiguration(btConfig) { name = "root", position = new Vector2(10, 10), parentId = -1 });
         });
     }
 
     private void OnDisable()
     {
-        AssetDatabase.CreateAsset(uxmlElement, "Assets/Scripts/BehaviorTree/Editor/BehaviorTreeEditor_clone.uxml");
+        Configuration.SerializeToFile(btConfig, Application.streamingAssetsPath +"/BehaviorTreeEditor_clone.xml");
     }
 }

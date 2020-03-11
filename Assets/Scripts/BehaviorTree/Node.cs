@@ -8,8 +8,12 @@ using System;
 public abstract class Node
 {
     public Node parentNode = null;
+
     public List<Node> childNodes = new List<Node>();
+
     public List<IDecorator> decorators = new List<IDecorator>();
+
+    protected BehaviorTree bt;
 
     public Node AddChild<T>() where T : Node
     {
@@ -30,8 +34,6 @@ public abstract class Node
         decorators.Add(decorator);
         return decorator;
     }
-
-    protected BehaviorTree bt;
 
     public virtual void Init(BehaviorTree bt)
     {

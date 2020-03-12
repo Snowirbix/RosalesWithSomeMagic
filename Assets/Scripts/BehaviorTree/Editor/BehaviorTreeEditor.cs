@@ -41,9 +41,8 @@ public class BehaviorTreeEditor : EditorWindow
 
         root.Q<Button>("CreateNode").RegisterCallback<MouseUpEvent>(x =>
         {
-            NodeElement node = new NodeElement();
+            NodeElement node = new NodeElement(btConfig);
             root.Add(node);
-            btConfig.nodes.Add(new BehaviorTreeConfiguration.NodeConfiguration(btConfig) { name = "root", position = new Vector2(10, 10), parentId = -1 });
         });
     }
 

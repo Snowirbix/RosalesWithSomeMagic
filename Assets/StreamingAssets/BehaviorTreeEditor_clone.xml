@@ -1,4 +1,21 @@
 <BehaviorTreeConfiguration xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <idx>0</idx>
-  <nodes />
+  <idx>2</idx>
+  <nodes>
+    <NodeConfiguration>
+      <parentId>-1</parentId>
+      <position>
+        <x>10</x>
+        <y>10</y>
+      </position>
+      <name>root</name>
+    </NodeConfiguration>
+    <NodeConfiguration>
+      <parentId>-1</parentId>
+      <position>
+        <x>10</x>
+        <y>10</y>
+      </position>
+      <name>root</name>
+    </NodeConfiguration>
+  </nodes>
 </BehaviorTreeConfiguration>

@@ -8,9 +8,37 @@ using System.Collections.Generic;
 
 public class BehaviorTreeEditor : EditorWindow
 {
-    protected VisualTreeAsset visualTree;
-    protected VisualElement uxmlElement;
-    protected BehaviorTreeConfiguration btConfig;
+    [Obsolete("use a standard visualElement as the root for visualNodes")]
+    protected VisualNode rootNode;
+    protected VisualNodeTree visualNodeTree;
+    protected int idx;
+
+    [Serializable]
+    public class VisualNodeTree
+    {
+        public VisualNodeTree()
+        {
+            nodesData = new List<VisualNode.Data>();
+        }
+
+        public VisualNodeTree(VisualNode node)
+        {
+            nodesData = new List<VisualNode.Data>();
+            Add(node);
+        }
+
+        private void Add (VisualNode node)
+        {
+            nodesData.Add(node.Serialize());
+
+            foreach (VisualNode child in node.Children())
+            {
+                Add(child);
+            }
+        }
+
+        public List<VisualNode.Data> nodesData;
+    }
 
     [MenuItem("Window/UIElements/BehaviorTreeEditor")]
     public static void ShowExample()
@@ -21,33 +49,47 @@ public class BehaviorTreeEditor : EditorWindow
 
     public void OnEnable()
     {
+        // Init
+        idx = 1;
         BetterStreamingAssets.Initialize();
 
-        // Each editor window contains a root VisualElement object
-        VisualElement root = rootVisualElement;
-
         // Import UXML
-        visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Scripts/BehaviorTree/Editor/BehaviorTreeEditor.uxml");
-        uxmlElement = visualTree.CloneTree();
-        root.Add(uxmlElement);
+        VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Scripts/BehaviorTree/Editor/BehaviorTreeEditor.uxml");
+        VisualElement visualTreeClone = visualTree.CloneTree();
+        rootVisualElement.Add(visualTreeClone);
 
         // Import USS
         var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Scripts/BehaviorTree/Editor/BehaviorTreeEditor.uss");
-        root.styleSheets.Add(styleSheet);
+        rootVisualElement.styleSheets.Add(styleSheet);
+        
+        // Create root node
+        rootNode = new VisualNode(0);
+        rootVisualElement.Add(rootNode);
 
-        BehaviorTreeConfiguration config = Configuration.DeserializeFromFile<BehaviorTreeConfiguration>("/BehaviorTreeEditor_clone.xml");
-
-        btConfig = new BehaviorTreeConfiguration();
-
-        root.Q<Button>("CreateNode").RegisterCallback<MouseUpEvent>(x =>
+        // Import VisualTree xml
+        try
         {
-            NodeElement node = new NodeElement(btConfig);
-            root.Add(node);
+            VisualNodeTree config = Configuration.DeserializeFromFile<VisualNodeTree>("/BehaviorTreeEditor_clone.xml");
+            foreach (VisualNode.Data data in config.nodesData)
+            {
+                rootNode.Add(new VisualNode(data));
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
+
+        // Create new node on click
+        rootVisualElement.Q<Button>("CreateNode").RegisterCallback<MouseUpEvent>(x =>
+        {
+            rootNode.Add(new VisualNode(idx++));
         });
     }
 
     private void OnDisable()
     {
-        Configuration.SerializeToFile(btConfig, Application.streamingAssetsPath +"/BehaviorTreeEditor_clone.xml");
+        visualNodeTree = new VisualNodeTree(rootNode);
+        Configuration.SerializeToFile(visualNodeTree, Application.streamingAssetsPath +"/BehaviorTreeEditor_clone.xml");
     }
 }

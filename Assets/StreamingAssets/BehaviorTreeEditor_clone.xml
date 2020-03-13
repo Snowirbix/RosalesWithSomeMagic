@@ -1,39 +1,12 @@
 <VisualNodeTree xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <nodesData>
     <Data>
-      <id>0</id>
-      <parentId>-1</parentId>
-      <name>root</name>
-      <position>
-        <x>50</x>
-        <y>50</y>
-      </position>
-    </Data>
-    <Data>
-      <id>0</id>
-      <parentId>-1</parentId>
-      <name>root</name>
-      <position>
-        <x>184</x>
-        <y>278</y>
-      </position>
-    </Data>
-    <Data>
-      <id>0</id>
-      <parentId>-1</parentId>
-      <name>root</name>
-      <position>
-        <x>473</x>
-        <y>136</y>
-      </position>
-    </Data>
-    <Data>
       <id>1</id>
       <parentId>-1</parentId>
       <name>root</name>
       <position>
-        <x>208</x>
-        <y>147</y>
+        <x>271</x>
+        <y>78</y>
       </position>
     </Data>
     <Data>
@@ -41,8 +14,8 @@
       <parentId>-1</parentId>
       <name>root</name>
       <position>
-        <x>-55</x>
-        <y>120</y>
+        <x>7</x>
+        <y>214</y>
       </position>
     </Data>
   </nodesData>

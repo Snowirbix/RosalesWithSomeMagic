@@ -8,8 +8,7 @@ using System.Collections.Generic;
 
 public class BehaviorTreeEditor : EditorWindow
 {
-    [Obsolete("use a standard visualElement as the root for visualNodes")]
-    protected VisualNode rootNode;
+    protected VisualElement rootVisualNode;
     protected VisualNodeTree visualNodeTree;
     protected int idx;
 
@@ -21,19 +20,13 @@ public class BehaviorTreeEditor : EditorWindow
             nodesData = new List<VisualNode.Data>();
         }
 
-        public VisualNodeTree(VisualNode node)
+        public VisualNodeTree(VisualElement root)
         {
             nodesData = new List<VisualNode.Data>();
-            Add(node);
-        }
-
-        private void Add (VisualNode node)
-        {
-            nodesData.Add(node.Serialize());
-
-            foreach (VisualNode child in node.Children())
+            
+            foreach (VisualNode child in root.Children())
             {
-                Add(child);
+                nodesData.Add(child.Serialize());
             }
         }
 
@@ -63,8 +56,8 @@ public class BehaviorTreeEditor : EditorWindow
         rootVisualElement.styleSheets.Add(styleSheet);
         
         // Create root node
-        rootNode = new VisualNode(0);
-        rootVisualElement.Add(rootNode);
+        rootVisualNode = new VisualElement();
+        rootVisualElement.Add(rootVisualNode);
 
         // Import VisualTree xml
         try
@@ -72,24 +65,24 @@ public class BehaviorTreeEditor : EditorWindow
             VisualNodeTree config = Configuration.DeserializeFromFile<VisualNodeTree>("/BehaviorTreeEditor_clone.xml");
             foreach (VisualNode.Data data in config.nodesData)
             {
-                rootNode.Add(new VisualNode(data));
+                rootVisualNode.Add(new VisualNode(data));
             }
         }
-        catch (Exception e)
+        catch (System.IO.FileNotFoundException e)
         {
-            Debug.LogError(e);
+            Debug.Log(e);
         }
 
         // Create new node on click
         rootVisualElement.Q<Button>("CreateNode").RegisterCallback<MouseUpEvent>(x =>
         {
-            rootNode.Add(new VisualNode(idx++));
+            rootVisualNode.Add(new VisualNode(idx++));
         });
     }
 
     private void OnDisable()
     {
-        visualNodeTree = new VisualNodeTree(rootNode);
+        visualNodeTree = new VisualNodeTree(rootVisualNode);
         Configuration.SerializeToFile(visualNodeTree, Application.streamingAssetsPath +"/BehaviorTreeEditor_clone.xml");
     }
 }

@@ -16,7 +16,7 @@ public class VisualNode : Label
     }
 
     protected Data data;
-
+    
     public VisualNode(int id) : base()
     {
         data = new Data() {
@@ -26,9 +26,15 @@ public class VisualNode : Label
             position = new Vector2(50, 50)
         };
 
+        this.style.left = new StyleLength(new Length(50f, LengthUnit.Pixel));
+        this.style.top  = new StyleLength(new Length(50f, LengthUnit.Pixel));
+
         Initialize();
     }
 
+    /**
+     * Create visual node from saved data
+     */
     public VisualNode(Data data)
     {
         Deserialize(data);
@@ -44,36 +50,69 @@ public class VisualNode : Label
 
         this.RegisterCallback<MouseDownEvent>(OnMouseDown);
         this.RegisterCallback<MouseMoveEvent>(OnMouseMove);
-        this.RegisterCallback<MouseUpEvent>(OnMouseUp);
+        this.RegisterCallback<MouseUpEvent  >(OnMouseUp);
 
-        this.style.left = new StyleLength(new Length(50f, LengthUnit.Pixel));
-        this.style.top  = new StyleLength(new Length(50f, LengthUnit.Pixel));
+        // Unity manipulator soup
+        this.AddManipulator(new ContextualMenuManipulator(null));
+        this.RegisterCallback<ContextualMenuPopulateEvent>(OnContextMenu);
+    }
+
+    private void wtf(ContextualMenuManipulator evt)
+    {
+        return;
     }
 
     protected void OnMouseDown(MouseDownEvent evt)
     {
-        evt.target.CaptureMouse();
+        switch ((MouseButton)evt.button)
+        {
+            case MouseButton.LeftMouse:
+                evt.target.CaptureMouse();
+            break;
+        }
     }
     
     private void OnMouseMove(MouseMoveEvent evt)
     {
-        if (this.HasMouseCapture())
+        switch ((MouseButton)evt.button)
         {
-            this.style.left = this.style.left.value.value + evt.mouseDelta.x;
-            this.style.top  = this.style.top. value.value + evt.mouseDelta.y;
+            case MouseButton.LeftMouse:
+                if (this.HasMouseCapture())
+                {
+                    this.style.left = this.style.left.value.value + evt.mouseDelta.x;
+                    this.style.top  = this.style.top. value.value + evt.mouseDelta.y;
+                }
+            break;
         }
     }
     
     private void OnMouseUp(MouseUpEvent evt)
     {
-        this.ReleaseMouse();
+        switch ((MouseButton)evt.button)
+        {
+            case MouseButton.LeftMouse:
+                if (this.HasMouseCapture())
+                {
+                    this.ReleaseMouse();
+                }
+            break;
+        }
+    }
+
+    private void OnContextMenu(ContextualMenuPopulateEvent evt)
+    {
+        //evt.menu.AppendAction("Link")
+        evt.menu.AppendAction("Delete", (DropdownMenuAction action) =>
+        {
+            parent.Remove(this);
+        });
     }
 
     public Data Serialize()
     {
         data.position = new Vector2 {
             x = this.style.left.value.value,
-            y = this.style.top.value.value
+            y = this.style.top. value.value
         };
 
         return data;
@@ -81,8 +120,10 @@ public class VisualNode : Label
 
     public void Deserialize(Data data)
     {
+        // overwrite data
         this.data = data;
-        
+
+        // apply styles
         this.style.left = new StyleLength(new Length(data.position.x, LengthUnit.Pixel));
         this.style.top  = new StyleLength(new Length(data.position.y, LengthUnit.Pixel));
     }

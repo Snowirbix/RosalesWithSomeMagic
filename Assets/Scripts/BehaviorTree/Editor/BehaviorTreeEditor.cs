@@ -5,9 +5,12 @@ using UnityEditor.UIElements;
 using System;
 using Better.StreamingAssets;
 using System.Collections.Generic;
+using System.Linq;
 
 public class BehaviorTreeEditor : EditorWindow
 {
+    public VectorImage image;
+
     protected VisualElement rootVisualNode;
     protected VisualNodeTree visualNodeTree;
     protected int idx;
@@ -24,9 +27,12 @@ public class BehaviorTreeEditor : EditorWindow
         {
             nodesData = new List<VisualNode.Data>();
             
-            foreach (VisualNode child in root.Children())
+            // What's happening here
+            foreach (VisualElement child in root.Children())
             {
-                nodesData.Add(child.Serialize());
+                VisualNode vn = child.Q<VisualNode>();
+                if (vn != null)
+                    nodesData.Add(vn.Serialize());
             }
         }
 
@@ -46,26 +52,39 @@ public class BehaviorTreeEditor : EditorWindow
         idx = 1;
         BetterStreamingAssets.Initialize();
 
-        // Import UXML
+        // Import window UXML
         VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Scripts/BehaviorTree/Editor/BehaviorTreeEditor.uxml");
         VisualElement visualTreeClone = visualTree.CloneTree();
         rootVisualElement.Add(visualTreeClone);
 
-        // Import USS
+        // Import global USS
         var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Scripts/BehaviorTree/Editor/BehaviorTreeEditor.uss");
         rootVisualElement.styleSheets.Add(styleSheet);
         
         // Create root node
         rootVisualNode = new VisualElement();
+        rootVisualNode.name = "Root Visual Node";
         rootVisualElement.Add(rootVisualNode);
+
+        // Import node UXML and USS
+        VisualTreeAsset visualNodeTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Scripts/BehaviorTree/Editor/VisualNode.uxml");
+        var nodeStyleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Scripts/BehaviorTree/Editor/VisualNode.uss");
+
+        // Set link image
+        NodeLinkImage.image = image;
 
         // Import VisualTree xml
         try
         {
             VisualNodeTree config = Configuration.DeserializeFromFile<VisualNodeTree>("/BehaviorTreeEditor_clone.xml");
+            VisualNode.UxmlFactory nodeFactory = new VisualNode.UxmlFactory();
             foreach (VisualNode.Data data in config.nodesData)
             {
-                rootVisualNode.Add(new VisualNode(data));
+                VisualElement visualNodeClone = visualNodeTree.CloneTree();
+                visualNodeClone.styleSheets.Add(nodeStyleSheet);
+                rootVisualNode.Add(visualNodeClone);
+        
+                //rootVisualNode.Add(new VisualNode(data));
             }
         }
         catch (System.IO.FileNotFoundException e)
@@ -76,7 +95,9 @@ public class BehaviorTreeEditor : EditorWindow
         // Create new node on click
         rootVisualElement.Q<Button>("CreateNode").RegisterCallback<MouseUpEvent>(x =>
         {
-            rootVisualNode.Add(new VisualNode(idx++));
+            VisualElement visualNodeClone = visualNodeTree.CloneTree();
+            visualNodeClone.styleSheets.Add(nodeStyleSheet);
+            rootVisualNode.Add(visualNodeClone);
         });
     }
 

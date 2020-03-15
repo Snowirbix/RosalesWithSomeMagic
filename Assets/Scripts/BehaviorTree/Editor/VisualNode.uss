@@ -1,0 +1,10 @@
+.BT_Node {
+    position: absolute;
+    width: 200px;
+    height: 40px;
+    border-width: 1px;
+    border-color: rgb(170, 170, 170);
+    border-radius: 5px;
+    background-color: rgb(229, 115, 1);
+    -unity-text-align: middle-center;
+}

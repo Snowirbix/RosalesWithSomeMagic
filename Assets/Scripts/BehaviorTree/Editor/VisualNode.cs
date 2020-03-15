@@ -1,11 +1,40 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class VisualNode : Label
+public class VisualNode : VisualElement
 {
+    public new class UxmlFactory : UxmlFactory<VisualNode, UxmlTraits> { }
+
+    // Unity factory soup
+    public new class UxmlTraits : VisualElement.UxmlTraits
+    {
+        //UxmlStringAttributeDescription  m_String =  new UxmlStringAttributeDescription  { name = "string-attr", defaultValue = "default_value" };
+ 
+        // Unity wtf soup
+        public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
+        {
+            get { yield break; }
+        }
+ 
+        public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
+        {
+            base.Init(ve, bag, cc);
+
+            var ate = ve as VisualNode;
+            ate.Clear();
+
+            //ate.stringAttr = m_String.GetValueFromBag(bag, cc);
+            //ate.Add(new TextField("String") { value = ate.stringAttr });
+        }
+    }
+
+    //public string   stringAttr  { get; set; }
+
     [Serializable]
     public struct Data
     {
@@ -16,6 +45,24 @@ public class VisualNode : Label
     }
 
     protected Data data;
+    protected bool dragging = false;
+    protected NodeLinkImage link;
+    protected bool firstDraw = true;
+
+    public VisualNode () : base()
+    {
+        data = new Data() {
+            id = -1,
+            parentId = -1,
+            name = "root",
+            position = new Vector2(50, 50)
+        };
+
+        this.style.left = new StyleLength(new Length(50f, LengthUnit.Pixel));
+        this.style.top  = new StyleLength(new Length(50f, LengthUnit.Pixel));
+
+        Initialize();
+    }
     
     public VisualNode(int id) : base()
     {
@@ -44,30 +91,44 @@ public class VisualNode : Label
 
     public void Initialize ()
     {
-        this.text = "root";
+        AddToClassList("BT_Node");
 
-        this.AddToClassList("BT_Node");
-
-        this.RegisterCallback<MouseDownEvent>(OnMouseDown);
-        this.RegisterCallback<MouseMoveEvent>(OnMouseMove);
-        this.RegisterCallback<MouseUpEvent  >(OnMouseUp);
+        RegisterCallback<MouseDownEvent> (OnMouseDown);
+        RegisterCallback<MouseMoveEvent> (OnMouseMove);
+        RegisterCallback<MouseUpEvent>   (OnMouseUp);
+        RegisterCallback<MouseLeaveEvent>(OnMouseLeave);
+        RegisterCallback<KeyDownEvent>   (OnKeyDown);
 
         // Unity manipulator soup
         this.AddManipulator(new ContextualMenuManipulator(null));
-        this.RegisterCallback<ContextualMenuPopulateEvent>(OnContextMenu);
+        RegisterCallback<ContextualMenuPopulateEvent>(OnContextMenu);
+
+        RegisterCallback<GeometryChangedEvent>(OnGeometryChanged);
     }
 
-    private void wtf(ContextualMenuManipulator evt)
+    private void OnGeometryChanged(GeometryChangedEvent evt)
     {
-        return;
+        if (firstDraw)
+        {
+            firstDraw = false;
+            // Unity Query doesn't work here
+            VisualElement bot = Children().First(x => x.name == "BottomLink");
+            bot.style.backgroundColor = Color.red;
+            bot.RegisterCallback<MouseDownEvent>(OnMouseDownBottom);
+            bot.RegisterCallback<MouseMoveEvent>(OnMouseMoveBottom);
+            bot.RegisterCallback<MouseUpEvent>  (OnMouseUpBottom);
+
+            link = bot.Children().First(x => x.name == "Link") as NodeLinkImage;
+            link.visible = false;
+        }
     }
 
-    protected void OnMouseDown(MouseDownEvent evt)
+    private void OnMouseDown(MouseDownEvent evt)
     {
         switch ((MouseButton)evt.button)
         {
             case MouseButton.LeftMouse:
-                evt.target.CaptureMouse();
+                dragging = true;
             break;
         }
     }
@@ -77,7 +138,7 @@ public class VisualNode : Label
         switch ((MouseButton)evt.button)
         {
             case MouseButton.LeftMouse:
-                if (this.HasMouseCapture())
+                if (dragging)
                 {
                     this.style.left = this.style.left.value.value + evt.mouseDelta.x;
                     this.style.top  = this.style.top. value.value + evt.mouseDelta.y;
@@ -91,21 +152,73 @@ public class VisualNode : Label
         switch ((MouseButton)evt.button)
         {
             case MouseButton.LeftMouse:
-                if (this.HasMouseCapture())
-                {
-                    this.ReleaseMouse();
-                }
+                dragging = false;
             break;
         }
     }
 
+    private void OnMouseLeave(MouseLeaveEvent evt)
+    {
+        dragging = false;
+    }
+
     private void OnContextMenu(ContextualMenuPopulateEvent evt)
     {
-        //evt.menu.AppendAction("Link")
         evt.menu.AppendAction("Delete", (DropdownMenuAction action) =>
         {
-            parent.Remove(this);
+            RemoveFromHierarchy();
         });
+    }
+
+    private void OnKeyDown (KeyDownEvent evt)
+    {
+        if (evt.keyCode == KeyCode.Escape)
+        {
+            MouseCaptureController.ReleaseMouse();
+            Debug.Log("Force Release Mouse");
+        }
+    }
+
+    private void OnMouseDownBottom(MouseDownEvent evt)
+    {
+        switch ((MouseButton)evt.button)
+        {
+            case MouseButton.LeftMouse:
+                evt.StopImmediatePropagation();
+                link.style.left = evt.localMousePosition.x;
+                link.style.top  = evt.localMousePosition.y;
+                link.visible = true;
+                //link.CaptureMouse();
+                Debug.Log("Capture Mouse");
+            break;
+        }
+
+    }
+    
+    private void OnMouseMoveBottom(MouseMoveEvent evt)
+    {
+        switch ((MouseButton)evt.button)
+        {
+            case MouseButton.LeftMouse:
+                //if (link.HasMouseCapture())
+                //{
+                    Debug.Log("Mouse move");
+                    //this.style.left = this.style.left.value.value + evt.mouseDelta.x;
+                    //this.style.top  = this.style.top. value.value + evt.mouseDelta.y;
+                //}
+            break;
+        }
+    }
+    
+    private void OnMouseUpBottom(MouseUpEvent evt)
+    {
+        switch ((MouseButton)evt.button)
+        {
+            case MouseButton.LeftMouse:
+                //link.ReleaseMouse();
+                Debug.Log("Release Mouse");
+            break;
+        }
     }
 
     public Data Serialize()

@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <VisualNode style="height: 80px;&#10;background-color: rgb(128, 128, 128);&#10;">
+        <Style src="VisualNode.uss" />
+        <ui:VisualElement name="TopLink" style="position: relative;&#10;left: 0;&#10;background-color: rgb(68, 83, 102);&#10;width: 40%;&#10;height: 10px;&#10;border-top-left-radius: 0;&#10;border-bottom-left-radius: 5px;&#10;border-top-right-radius: 0;&#10;border-bottom-right-radius: 5px;&#10;margin-left: 30%;&#10;margin-right: 30%;&#10;" />
+        <ui:Label text="Node" name="NodeName" style="flex-grow: 1;&#10;color: rgb(255, 255, 255);&#10;font-size: 14px;&#10;-unity-font-style: bold;&#10;" />
+        <ui:VisualElement name="BottomLink" style="height: 10px;&#10;width: 60%;&#10;margin-left: 20%;&#10;margin-right: 20%;&#10;background-color: rgb(68, 83, 102);&#10;border-top-left-radius: 5px;&#10;border-top-right-radius: 5px;&#10;">
+            <NodeLinkImage name="Link" style="position: absolute;&#10;" />
+        </ui:VisualElement>
+    </VisualNode>
+</ui:UXML>

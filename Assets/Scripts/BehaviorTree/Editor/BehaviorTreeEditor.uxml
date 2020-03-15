@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <ui:Button text="Create Node" name="CreateNode" style="max-width: 200px;">
+    <ui:Button text="Create Node" name="CreateNode" style="max-width: 200px;&#10;">
         <Style src="BehaviorTreeEditor.uss" />
     </ui:Button>
 </ui:UXML>

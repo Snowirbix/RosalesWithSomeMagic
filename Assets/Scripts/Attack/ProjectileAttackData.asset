@@ -16,7 +16,7 @@ MonoBehaviour:
   animationAttackTime: 0
   image: {fileID: 21300000, guid: 78ceb3cc597ff6747a07e21619c2d182, type: 3}
   range: 10
-  speed: 16
+  speed: 5
   damage: 35
   castingTime: 0.1
   slowCurve:

@@ -34,22 +34,4 @@ public class NodeLinkImage : Image
         this.scaleMode = ScaleMode.StretchToFill;
         this.AddToClassList("BT_Link");
     }
-
-    protected override void ExecuteDefaultAction (EventBase evt)
-    {
-        base.ExecuteDefaultAction(evt);
-
-        switch ((EventType)evt.eventTypeId)
-        {
-            case EventType.MouseMove:
-                if (this.HasMouseCapture())
-                    Debug.Log("mouse move");
-            break;
-            case EventType.MouseUp:
-                //Debug.Log(evt.target == this);
-                //this.ReleaseMouse();
-                //Debug.Log("Release mouse");
-            break;
-        }
-    }
 }

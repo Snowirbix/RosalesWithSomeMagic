@@ -45,7 +45,7 @@ public class VisualNode : VisualElement
     }
 
     protected Data data;
-    protected bool dragging = false;
+    protected VisualElement bot;
     protected NodeLinkImage link;
     protected bool firstDraw = true;
 
@@ -112,8 +112,7 @@ public class VisualNode : VisualElement
         {
             firstDraw = false;
             // Unity Query doesn't work here
-            VisualElement bot = Children().First(x => x.name == "BottomLink");
-            bot.style.backgroundColor = Color.red;
+            bot = Children().First(x => x.name == "BottomLink");
             bot.RegisterCallback<MouseDownEvent>(OnMouseDownBottom);
             bot.RegisterCallback<MouseMoveEvent>(OnMouseMoveBottom);
             bot.RegisterCallback<MouseUpEvent>  (OnMouseUpBottom);
@@ -128,7 +127,7 @@ public class VisualNode : VisualElement
         switch ((MouseButton)evt.button)
         {
             case MouseButton.LeftMouse:
-                dragging = true;
+                this.CaptureMouse();
             break;
         }
     }
@@ -138,7 +137,7 @@ public class VisualNode : VisualElement
         switch ((MouseButton)evt.button)
         {
             case MouseButton.LeftMouse:
-                if (dragging)
+                if (this.HasMouseCapture())
                 {
                     this.style.left = this.style.left.value.value + evt.mouseDelta.x;
                     this.style.top  = this.style.top. value.value + evt.mouseDelta.y;
@@ -152,14 +151,15 @@ public class VisualNode : VisualElement
         switch ((MouseButton)evt.button)
         {
             case MouseButton.LeftMouse:
-                dragging = false;
+                this.ReleaseMouse();
             break;
         }
     }
 
     private void OnMouseLeave(MouseLeaveEvent evt)
     {
-        dragging = false;
+        if (this.HasMouseCapture())
+            this.ReleaseMouse();
     }
 
     private void OnContextMenu(ContextualMenuPopulateEvent evt)
@@ -186,13 +186,11 @@ public class VisualNode : VisualElement
             case MouseButton.LeftMouse:
                 evt.StopImmediatePropagation();
                 link.style.left = evt.localMousePosition.x;
-                link.style.top  = evt.localMousePosition.y;
+                link.style.top = evt.localMousePosition.y;
                 link.visible = true;
-                //link.CaptureMouse();
-                Debug.Log("Capture Mouse");
+                bot.CaptureMouse();
             break;
         }
-
     }
     
     private void OnMouseMoveBottom(MouseMoveEvent evt)
@@ -200,12 +198,12 @@ public class VisualNode : VisualElement
         switch ((MouseButton)evt.button)
         {
             case MouseButton.LeftMouse:
-                //if (link.HasMouseCapture())
-                //{
-                    Debug.Log("Mouse move");
-                    //this.style.left = this.style.left.value.value + evt.mouseDelta.x;
-                    //this.style.top  = this.style.top. value.value + evt.mouseDelta.y;
-                //}
+                //evt.StopImmediatePropagation();
+                if (bot.HasMouseCapture())
+                {
+                    link.style.width  = link.style.width. value.value + evt.mouseDelta.x;
+                    link.style.height = link.style.height.value.value + evt.mouseDelta.y;
+                }
             break;
         }
     }
@@ -215,12 +213,11 @@ public class VisualNode : VisualElement
         switch ((MouseButton)evt.button)
         {
             case MouseButton.LeftMouse:
-                //link.ReleaseMouse();
-                Debug.Log("Release Mouse");
+                bot.ReleaseMouse();
             break;
         }
     }
-
+    
     public Data Serialize()
     {
         data.position = new Vector2 {
